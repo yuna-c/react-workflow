@@ -8,6 +8,8 @@ import Department from './components/sub/department/Department';
 import Gallery from './components/sub/gallery/Gallery';
 import Youtube from './components/sub/youtube/Youtube';
 import { Route } from 'react-router-dom';
+import './globalStyles/Variables.scss';
+import './globalStyles/Reset.scss';
 
 export default function App() {
 	return (
