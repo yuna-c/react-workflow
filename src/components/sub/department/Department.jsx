@@ -1,9 +1,8 @@
 import Layout from '../../common/layout/Layout';
 import './Department.scss';
-
 export default function Department() {
 	return (
-		<Layout>
+		<Layout title={'Deparment'}>
 			<p>Department전용 컨텐츠</p>
 		</Layout>
 	);
