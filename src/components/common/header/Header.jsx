@@ -41,7 +41,9 @@ export default function Header({ Dark, setDark }) {
 				</li>
 			</ul>
 
-			<button onClick={() => setDark(!Dark)}>Theme</button>
+			<div className={`themeBox ${Dark && 'dark'}`} onClick={() => setDark(!Dark)}>
+				<div className='ball'></div>
+			</div>
 		</header>
 	);
 }
