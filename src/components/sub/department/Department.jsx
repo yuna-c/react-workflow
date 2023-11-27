@@ -3,14 +3,16 @@ import Layout from '../../common/layout/Layout';
 import './Department.scss';
 
 export default function Department() {
+	console.log('render');
 	const [MemberData, setMemberData] = useState([]);
+	console.log(MemberData);
 	const path = process.env.PUBLIC_URL; //public폴더까지의 경로를 구하는 구문
 
 	const fetchDepartment = () => {
 		fetch(`${path}/DB/department.json`)
 			.then((data) => data.json())
 			.then((json) => {
-				console.log(json.members);
+				//console.log(json.members);
 				setMemberData(json.members);
 			});
 	};
@@ -23,9 +25,13 @@ export default function Department() {
 		<Layout title={'Deparment'}>
 			{MemberData.map((member, idx) => {
 				return (
-					<div key={member + idx}>
+					<article key={member + idx}>
+						<div className='pic'>
+							<img src={`${path}/img/${member.pic}`} alt={member.name} />
+						</div>
 						<h2>{member.name}</h2>
-					</div>
+						<p>{member.position}</p>
+					</article>
 				);
 			})}
 		</Layout>
