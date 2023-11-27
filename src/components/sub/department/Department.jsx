@@ -3,8 +3,13 @@ import Layout from '../../common/layout/Layout';
 import './Department.scss';
 
 export default function Department() {
-	const [MemberTit, setMemberTit] = useState('');
+	const test = 'abcdef';
+	//console.log(test.charAt(0)); //a
+	//console.log(test.slice(1, 3)); //bc
+	//console.log(test.slice(1)); //bcdef
+	console.log(test.toUpperCase());
 
+	const [MemberTit, setMemberTit] = useState('');
 	const [MemberData, setMemberData] = useState([]);
 	const path = process.env.PUBLIC_URL; //public폴더까지의 경로를 구하는 구문
 
@@ -27,7 +32,7 @@ export default function Department() {
 	return (
 		<Layout title={'Deparment'}>
 			<section className='memberBox'>
-				<h2>{MemberTit}</h2>
+				<h2>{`${MemberTit.charAt(0).toUpperCase() + MemberTit.slice(1)}`}</h2>
 				{MemberData.map((member, idx) => {
 					return (
 						<article key={member + idx}>
