@@ -5,12 +5,13 @@ import { useSplitText } from '../../../hooks/useSplitText';
 export default function Layout({ children, title }) {
 	const refFrame = useRef(null);
 	const refTitle = useRef(null);
-
 	const splitText = useSplitText();
 
 	useEffect(() => {
-		splitText(refTitle.current, title);
-		refFrame.current.classList.add('on');
+		splitText(refTitle.current, title, 0.7, 0.1);
+		setTimeout(() => {
+			refFrame.current.classList.add('on');
+		}, 300);
 	}, []);
 
 	return (
