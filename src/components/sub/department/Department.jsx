@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Department.scss';
+import { useCustomText } from '../../../hooks/useText';
 
 export default function Department() {
 	const [MemberTit, setMemberTit] = useState('');
 	const [MemberData, setMemberData] = useState([]);
 	const path = useRef(process.env.PUBLIC_URL);
+	const changeTitle = useCustomText('title');
 
 	const fetchDepartment = () => {
 		fetch(`${path.current}/DB/department.json`)
@@ -23,7 +25,7 @@ export default function Department() {
 	return (
 		<Layout title={'Deparment'}>
 			<section className='memberBox'>
-				<h2>{`${MemberTit.charAt(0).toUpperCase() + MemberTit.slice(1)}`}</h2>
+				<h2>{changeTitle(MemberTit)}</h2>
 				{MemberData.map((member, idx) => {
 					return (
 						<article key={member + idx}>
