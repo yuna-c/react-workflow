@@ -8,6 +8,9 @@ export default function Department() {
 	const [MemberData, setMemberData] = useState([]);
 	const path = useRef(process.env.PUBLIC_URL);
 	const changeTitle = useCustomText('title');
+	const text1 = 'abcdef';
+	const shortenText = useCustomText('shorten');
+	console.log(shortenText(text1, 8));
 
 	const fetchDepartment = () => {
 		fetch(`${path.current}/DB/department.json`)
