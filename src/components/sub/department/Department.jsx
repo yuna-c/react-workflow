@@ -1,17 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Department.scss';
-import { useSplitText, useCustomText } from '../../../hooks/useText';
+import { useCustomText } from '../../../hooks/useText';
 
 export default function Department() {
-	const changeTitle = useCustomText('title');
+	//const changeTitle = useCustomText('title');
+	const combinedTitle = useCustomText('combined');
 	const path = useRef(process.env.PUBLIC_URL);
 	const [MemberTit, setMemberTit] = useState('');
 	const [MemberData, setMemberData] = useState([]);
-
-	const combinedTitle = useCustomText('combined');
-	const test1 = 'our-members-score';
-	console.log(combinedTitle(test1, '-'));
 
 	const fetchDepartment = () => {
 		fetch(`${path.current}/DB/department.json`)
@@ -29,7 +26,7 @@ export default function Department() {
 	return (
 		<Layout title={'Deparment'}>
 			<section className='memberBox'>
-				<h2>{changeTitle(MemberTit)}</h2>
+				<h2>{combinedTitle(MemberTit, '-')}</h2>
 				{MemberData.map((member, idx) => {
 					return (
 						<article key={member + idx}>
