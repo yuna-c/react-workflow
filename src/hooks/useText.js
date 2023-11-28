@@ -27,10 +27,13 @@ export function useCustomText(type) {
 			}
 		};
 	}
+
 	if (type === 'combined') {
-		return (txt, spc) => {
+		//regEx (regular expression: 정규표현식) 문자열의 패턴별로 특정 기능 수행식
+		// /정규표현식/
+		return (txt) => {
 			const resultText = txt
-				.split(spc)
+				.split(/-|_|\+/) //인수로 들어가는 특수문자가 -,_,+일때는 해당 구분자로 문자를 분리함 (예약어 문자열을 앞에 \붙여서 처리)
 				.map((data) => toUpperText(data))
 				.join(' ');
 			return resultText;
