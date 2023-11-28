@@ -1,16 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Department.scss';
-import { useCustomText } from '../../../hooks/useText';
+import { useSplitText, useCustomText } from '../../../hooks/useText';
 
 export default function Department() {
+	const changeTitle = useCustomText('title');
+	const path = useRef(process.env.PUBLIC_URL);
 	const [MemberTit, setMemberTit] = useState('');
 	const [MemberData, setMemberData] = useState([]);
-	const path = useRef(process.env.PUBLIC_URL);
-	const changeTitle = useCustomText('title');
-	const text1 = 'abcdef';
-	const shortenText = useCustomText('shorten');
-	console.log(shortenText(text1, 8));
+
+	const combinedTitle = useCustomText('combined');
+	const test1 = 'our-members-score';
+	console.log(combinedTitle(test1, '-'));
 
 	const fetchDepartment = () => {
 		fetch(`${path.current}/DB/department.json`)
