@@ -16,7 +16,7 @@ export default function App() {
 	const [Dark, setDark] = useState(false);
 
 	return (
-		<div className={Dark ? 'wrap dark' : 'wrap'}>
+		<div className={`wrap ${Dark ? 'dark' : ''}`}>
 			<Header Dark={Dark} setDark={setDark} />
 			<Route exact path='/' component={MainWrap} />
 			<Route path='/department' component={Department} />
