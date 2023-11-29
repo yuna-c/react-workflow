@@ -39,7 +39,14 @@ export default function Department() {
 			<section className='historyBox'>
 				<h2>{combinedTitle(HistoryTit)}</h2>
 				<div className='con'>
-					{/* HistoryData가 반복도는 각각의 데이터 {년도: 배열} */}
+					{/* 
+						HistoryData 구조
+						[
+							{2016: [txt1, txt2,txt]}
+							{2018: [txt1, txt2,txt]}
+							{2020: [txt1, txt2,txt]}
+						] 
+					*/}
 					{HistoryData.map((history, idx) => {
 						console.log(history); // {2016: [txt1, txt2,txt]}
 						console.log(Object.keys(history)[0]); // [2016] -> 0번째 배열값 뽑아서 문자열 '2016';
