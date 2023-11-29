@@ -43,9 +43,26 @@
 		}
 	}
 
+	.menuToggle {
+		display: none;
+	}
+
 	.themeBox.dark {
 		.ball {
 			left: 35px;
+		}
+	}
+}
+
+.tablet,
+.mobile {
+	.Header {
+		width: 80vw;
+		ul {
+			display: none;
+		}
+		.menuToggle {
+			display: block;
 		}
 	}
 }
