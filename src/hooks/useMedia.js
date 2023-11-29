@@ -19,6 +19,5 @@ export const useMedia = (opt) => {
 		return () => window.removeEventListener('resize', getClientWid);
 	}, []);
 
-	console.log(Type);
 	return Type;
 };

@@ -40,10 +40,6 @@ export default function Department() {
 				<h2>{combinedTitle(HistoryTit)}</h2>
 				<div className='con'>
 					{HistoryData.map((history, idx) => {
-						//console.log(history);
-						//console.log(Object.keys(history)[0]);
-						//console.log(Object.values(history)[0]);
-
 						return (
 							<article key={history + idx}>
 								<h3>{Object.keys(history)[0]}</h3>
