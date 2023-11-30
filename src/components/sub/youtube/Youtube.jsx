@@ -8,6 +8,7 @@ export default function Youtube() {
 	const shortenText = useCustomText('shorten');
 	const [Vids, setVids] = useState([]);
 	console.log(Vids);
+	const [Default, setDefault] = useState('');
 
 	const fetchYoutube = async () => {
 		const api_key = 'AIzaSyDC60bIIkAJFzy7ji4a0Eo3AX6tYudhe1w';
