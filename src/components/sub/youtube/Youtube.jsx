@@ -2,13 +2,13 @@ import Layout from '../../common/layout/Layout';
 import './Youtube.scss';
 import { useState, useEffect } from 'react';
 import { useCustomText } from '../../../hooks/useText';
+import { Link } from 'react-router-dom';
 
 export default function Youtube() {
 	const customText = useCustomText('combined');
 	const shortenText = useCustomText('shorten');
 	const [Vids, setVids] = useState([]);
 	console.log(Vids);
-	const [Default, setDefault] = useState('');
 
 	const fetchYoutube = async () => {
 		const api_key = 'AIzaSyDC60bIIkAJFzy7ji4a0Eo3AX6tYudhe1w';
@@ -47,7 +47,12 @@ export default function Youtube() {
 						</div>
 
 						<div className='pic'>
-							<img src={data.snippet.thumbnails.standard.url} alt={data.snippet.title} />
+							<Link to={`/detail/${data.id}`}>
+								<img
+									src={data.snippet.thumbnails.standard.url}
+									alt={data.snippet.title}
+								/>
+							</Link>
 						</div>
 					</article>
 				);
