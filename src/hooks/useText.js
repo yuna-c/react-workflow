@@ -29,11 +29,11 @@ export function useCustomText(type) {
 	}
 
 	if (type === 'combined') {
-		return (txt) => {
+		return (txt, spc = ' ') => {
 			const resultText = txt
 				.split(/-|_|\+/)
 				.map((data) => toUpperText(data))
-				.join(' ');
+				.join(spc);
 			return resultText;
 		};
 	}
