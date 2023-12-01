@@ -1,17 +1,16 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Detail.scss';
 import { useParams } from 'react-router-dom';
 
 export default function Detail() {
-	console.log('re-render');
-	console.log('-----------------');
+	const refTitle = useRef(null);
+
 	const { id } = useParams();
 	const [YoutubeData, setYoutubeData] = useState(null);
-	console.log(YoutubeData);
 
 	const fetchSingleData = async () => {
-		const api_key = 'AIzaSyDC60bIIkAJFzy7ji4a0Eo3AX6tYudhe1w';
+		const api_key = process.env.REACT_APP_YOUTUBE_API;
 		const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&id=${id}`;
 
 		const data = await fetch(baseURL);
@@ -20,13 +19,13 @@ export default function Detail() {
 	};
 
 	useEffect(() => {
-		console.log('useEffect');
 		fetchSingleData();
 	}, []);
 
 	return (
 		<Layout title={'Detail'}>
-			{/* Optional Chaing : 객체명?.property 해당객체에 값이 없을땐 무시하고 값이 있을때만 property접근 */}
+			{/* Optional Chaining : 객체명?.property 해당객체에 값이 없을땐 무시하고 값이 있을때만 property접근 */}
+			<h2 ref={refTitle}>{YoutubeData?.title}</h2>
 			{YoutubeData && (
 				<article>
 					<div className='videoBox'>
