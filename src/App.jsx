@@ -15,6 +15,7 @@ import { useMedia } from './hooks/useMedia';
 import Menu from './components/common/memu/Menu';
 import Detail from './components/sub/youtube/Detail';
 
+//git confige option 수정
 export default function App() {
 	const [Dark, setDark] = useState(false);
 	const [Toggle, setToggle] = useState(false);
