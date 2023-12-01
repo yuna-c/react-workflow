@@ -6,8 +6,8 @@
 		width: 100%;
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: flex-start;
 		gap: var(--gap);
+		justify-content: flex-start;
 
 		article {
 			//사이간격 고정값 쓰는 경우
