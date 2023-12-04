@@ -6,8 +6,8 @@ import './Gallery.scss';
 export default function Gallery() {
 	console.log('re-render');
 	const myID = useRef('197119297@N02');
+	const isUser = useRef(true);
 	const refNav = useRef(null);
-
 	const [Pics, setPics] = useState([]);
 
 	const activateBtn = (e) => {
@@ -18,16 +18,21 @@ export default function Gallery() {
 
 	const handleInterest = (e) => {
 		if (e.target.classList.contains('on')) return;
+		isUser.current = false;
 		activateBtn(e);
 		fetchFlickr({ type: 'interest' });
 	};
+
 	const handleMine = (e) => {
-		if (e.target.classList.contains('on')) return;
+		if (e.target.classList.contains('on') || isUser.current) return;
+		isUser.current = true;
 		activateBtn(e);
 		fetchFlickr({ type: 'user', id: myID.current });
 	};
 
 	const handleUser = (e) => {
+		if (isUser.current) return;
+		isUser.current = true;
 		activateBtn();
 		fetchFlickr({ type: 'user', id: e.target.innerText });
 	};
