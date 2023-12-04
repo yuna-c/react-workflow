@@ -33,10 +33,8 @@ export default function Gallery() {
 		<Layout title={'Gallery'}>
 			<article className='controls'>
 				<nav className='btnSet'>
-					<button onClick={() => fetchFlickr({ type: 'interest' })}>
-						Interest Gallery
-					</button>
-					<button onClick={() => fetchFlickr({ type: 'user', id: myID.current })}>
+					<button onClick={() => fetchFlickr({ type: 'interest' })}>Interest Gallery</button>
+					<button className='on' onClick={() => fetchFlickr({ type: 'user', id: myID.current })}>
 						My Gallery
 					</button>
 				</nav>
@@ -59,16 +57,9 @@ export default function Gallery() {
 									<img
 										src={`http://farm${pic.farm}.staticflickr.com/${pic.server}/buddyicons/${pic.owner}.jpg`}
 										alt='사용자 프로필 이미지'
-										onError={(e) =>
-											e.target.setAttribute(
-												'src',
-												'https://www.flickr.com/images/buddyicon.gif'
-											)
-										}
+										onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
 									/>
-									<span onClick={() => fetchFlickr({ type: 'user', id: pic.owner })}>
-										{pic.owner}
-									</span>
+									<span onClick={() => fetchFlickr({ type: 'user', id: pic.owner })}>{pic.owner}</span>
 								</div>
 							</article>
 						);
