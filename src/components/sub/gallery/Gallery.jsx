@@ -6,7 +6,8 @@ import './Gallery.scss';
 export default function Gallery() {
 	console.log('re-render');
 	const myID = useRef('197119297@N02');
-	const isUser = useRef(true);
+	//isUser의 초기값을 내 아이디 문자값으로 등록
+	const isUser = useRef(myID.current);
 	const refNav = useRef(null);
 	const [Pics, setPics] = useState([]);
 
@@ -18,19 +19,22 @@ export default function Gallery() {
 
 	const handleInterest = (e) => {
 		if (e.target.classList.contains('on')) return;
-		isUser.current = false;
+		//Interest함수 호출시 isUser값을 빈문자열로 초기화 (false로 인식되는 값)
+		isUser.current = '';
 		activateBtn(e);
 		fetchFlickr({ type: 'interest' });
 	};
 
 	const handleMine = (e) => {
-		if (e.target.classList.contains('on') || isUser.current) return;
-		isUser.current = true;
+		//꼭 찍어서 isUser의 값과 myID값이 동일할때만 함수 중지
+		if (e.target.classList.contains('on') || isUser.current === myID.current) return;
+		isUser.current = myID.current;
 		activateBtn(e);
 		fetchFlickr({ type: 'user', id: myID.current });
 	};
 
 	const handleUser = (e) => {
+		//isUser값이 비어있기만 하면 중지
 		if (isUser.current) return;
 		isUser.current = true;
 		activateBtn();
