@@ -6,7 +6,15 @@ import './Gallery.scss';
 export default function Gallery() {
 	console.log('re-render');
 	const myID = useRef('197119297@N02');
+	const refNav = useRef(null);
+
 	const [Pics, setPics] = useState([]);
+
+	const activateBtn = (e) => {
+		const btns = refNav.current.querySelectorAll('button');
+		btns.forEach((btn) => btn.classList.remove('on'));
+		e.target.classList.add('on');
+	};
 
 	const fetchFlickr = async (opt) => {
 		const num = 50;
@@ -32,9 +40,22 @@ export default function Gallery() {
 	return (
 		<Layout title={'Gallery'}>
 			<article className='controls'>
-				<nav className='btnSet'>
-					<button onClick={() => fetchFlickr({ type: 'interest' })}>Interest Gallery</button>
-					<button className='on' onClick={() => fetchFlickr({ type: 'user', id: myID.current })}>
+				<nav className='btnSet' ref={refNav}>
+					<button
+						onClick={(e) => {
+							activateBtn(e);
+							fetchFlickr({ type: 'interest' });
+						}}
+					>
+						Interest Gallery
+					</button>
+					<button
+						className='on'
+						onClick={(e) => {
+							activateBtn(e);
+							fetchFlickr({ type: 'user', id: myID.current });
+						}}
+					>
 						My Gallery
 					</button>
 				</nav>
