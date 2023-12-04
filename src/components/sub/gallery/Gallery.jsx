@@ -8,12 +8,15 @@ export default function Gallery() {
 
 	const fetchFlickr = async () => {
 		const num = 50;
+		const myID = '197119297@N02';
 		const flickr_api = process.env.REACT_APP_FLICKR_API;
+		const baseURL = `https://www.flickr.com/services/rest/?&api_key=${flickr_api}&per_page=${num}&format=json&nojsoncallback=1&method=`;
 		const method_interest = 'flickr.interestingness.getList';
-		const baseURL = 'https://www.flickr.com/services/rest/?method=';
-		const resultURL = `${baseURL}${method_interest}&api_key=${flickr_api}&per_page=${num}&format=json&nojsoncallback=1`;
+		const method_user = 'flickr.people.getPhotos';
+		const interestURL = `${baseURL}${method_interest}`;
+		const userURL = `${baseURL}${method_user}&user_id=${myID}`;
 
-		const data = await fetch(resultURL);
+		const data = await fetch(userURL);
 		const json = await data.json();
 		setPics(json.photos.photo);
 	};
