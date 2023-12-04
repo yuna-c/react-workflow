@@ -5,7 +5,6 @@ import './Gallery.scss';
 
 export default function Gallery() {
 	console.log('re-render');
-	//1-참조객체에 내 아이디값 등록
 	const myID = useRef('197119297@N02');
 	const [Pics, setPics] = useState([]);
 
@@ -17,10 +16,8 @@ export default function Gallery() {
 		const method_interest = 'flickr.interestingness.getList';
 		const method_user = 'flickr.people.getPhotos';
 		const interestURL = `${baseURL}${method_interest}`;
-		//3- userURL에는 user_id를 상수값이 아닌 호출시점에 전달된 opt객체의 id로 등록해서 URL생성
 		const userURL = `${baseURL}${method_user}&user_id=${opt.id}`;
 		let url = '';
-		//4- 만들어진 URL로 데이터요청
 		opt.type === 'user' && (url = userURL);
 		opt.type === 'interest' && (url = interestURL);
 		const data = await fetch(url);
@@ -29,7 +26,6 @@ export default function Gallery() {
 	};
 
 	useEffect(() => {
-		//2-처음 컴포넌트 마운트시 타입을 user로 지정하고 id값으로 내 아이디등록
 		fetchFlickr({ type: 'user', id: myID.current });
 	}, []);
 
@@ -70,7 +66,9 @@ export default function Gallery() {
 											)
 										}
 									/>
-									<span>{pic.owner}</span>
+									<span onClick={() => fetchFlickr({ type: 'user', id: pic.owner })}>
+										{pic.owner}
+									</span>
 								</div>
 							</article>
 						);
