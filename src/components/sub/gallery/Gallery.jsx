@@ -14,6 +14,7 @@ export default function Gallery() {
 	const [Pics, setPics] = useState([]);
 	const [Open, setOpen] = useState(false);
 	const [Index, setIndex] = useState(0);
+	console.log(refMasonry);
 
 	const activateBtn = (e) => {
 		const btns = refNav.current.querySelectorAll('button');
@@ -73,10 +74,6 @@ export default function Gallery() {
 		setPics(json.photos.photo);
 	};
 
-	const openModal = (e) => {
-		setOpen(true);
-	};
-
 	useEffect(() => {
 		fetchFlickr({ type: 'user', id: myID.current });
 		//setGap(refNav.current && parseInt(getComputedStyle(refNav.current.closest('.Gallery')).getPropertyValue('--gap')));
@@ -84,7 +81,7 @@ export default function Gallery() {
 
 	// useEffect(() => {
 	// 	if (refMasonry.current) {
-	// 		refMasonry.current.layout();
+	// 		refMasonry.current?.layout();
 	// 	}
 	// }, [Gap]);
 
@@ -123,10 +120,7 @@ export default function Gallery() {
 												setIndex(idx);
 											}}
 										>
-											<img
-												src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_m.jpg`}
-												alt={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_b.jpg`}
-											/>
+											<img src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_m.jpg`} alt={pic.title} />
 										</div>
 										<h2>{pic.title}</h2>
 
@@ -148,7 +142,7 @@ export default function Gallery() {
 
 			{Open && (
 				<Modal setOpen={setOpen}>
-					<img src={`https://live.staticflickr.com/${Pics[Index].server}/${Pics[Index].id}_${Pics[Index].secret}_b.jpg`} alt={'img'} />
+					<img src={`https://live.staticflickr.com/${Pics[Index].server}/${Pics[Index].id}_${Pics[Index].secret}_b.jpg`} alt={Pics[Index].title} />
 				</Modal>
 			)}
 		</>
