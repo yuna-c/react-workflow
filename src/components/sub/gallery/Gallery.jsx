@@ -10,9 +10,9 @@ export default function Gallery() {
 	const isUser = useRef(myID.current);
 	const refNav = useRef(null);
 	const refMasonry = useRef(null);
-	const [Gap, setGap] = useState(0);
+	//const [Gap, setGap] = useState(0);
 	const [Pics, setPics] = useState([]);
-	console.log(Gap);
+	const [Open, setOpen] = useState(false);
 
 	const activateBtn = (e) => {
 		const btns = refNav.current.querySelectorAll('button');
@@ -111,7 +111,7 @@ export default function Gallery() {
 							Pics.map((pic) => {
 								return (
 									<article key={pic.id}>
-										<div className='pic'>
+										<div className='pic' onClick={() => setOpen(true)}>
 											<img
 												src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_m.jpg`}
 												alt={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_b.jpg`}
@@ -135,7 +135,7 @@ export default function Gallery() {
 				</section>
 			</Layout>
 
-			<Modal />
+			{Open && <Modal setOpen={setOpen} />}
 		</>
 	);
 }
