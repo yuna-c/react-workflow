@@ -2,13 +2,16 @@ import { useEffect, useRef, useState } from 'react';
 import Masonry from 'react-masonry-component';
 import Layout from '../../common/layout/Layout';
 import './Gallery.scss';
-import { LuHeading2, LuSearch } from 'react-icons/lu';
+import { LuSearch } from 'react-icons/lu';
 
 export default function Gallery() {
 	const myID = useRef('197119297@N02');
 	const isUser = useRef(myID.current);
 	const refNav = useRef(null);
+	const refMasonry = useRef(null);
+	const [Gap, setGap] = useState(0);
 	const [Pics, setPics] = useState([]);
+	console.log(Gap);
 
 	const activateBtn = (e) => {
 		const btns = refNav.current.querySelectorAll('button');
@@ -43,7 +46,6 @@ export default function Gallery() {
 		fetchFlickr({ type: 'search', keyword: keyword });
 	};
 	const fetchFlickr = async (opt) => {
-		console.log('fetching again...');
 		const num = 50;
 		const flickr_api = process.env.REACT_APP_FLICKR_API;
 		const baseURL = `https://www.flickr.com/services/rest/?&api_key=${flickr_api}&per_page=${num}&format=json&nojsoncallback=1&method=`;
@@ -71,7 +73,14 @@ export default function Gallery() {
 
 	useEffect(() => {
 		fetchFlickr({ type: 'user', id: myID.current });
+		//setGap(refNav.current && parseInt(getComputedStyle(refNav.current.closest('.Gallery')).getPropertyValue('--gap')));
 	}, []);
+
+	// useEffect(() => {
+	// 	if (refMasonry.current) {
+	// 		refMasonry.current.layout();
+	// 	}
+	// }, [Gap]);
 
 	return (
 		<Layout title={'Gallery'}>
@@ -93,8 +102,7 @@ export default function Gallery() {
 			</article>
 
 			<section>
-				<Masonry className={'frame'} options={{ transitionDuration: '0.5s', gutter: 20 }}>
-					{/* 3항 연산자로 배열에 받아지는 값이 없으면 경고문구 출력: 주의점: 3항연산자로 JSX를 분기처리시에는 괄호로 묶어줌 */}
+				<Masonry className={'frame'} options={{ transitionDuration: '0.5s', gutter: 20 }} ref={refMasonry}>
 					{Pics.length === 0 ? (
 						<h2>해당 키워드에 대한 검색 결과가 없습니다.</h2>
 					) : (
