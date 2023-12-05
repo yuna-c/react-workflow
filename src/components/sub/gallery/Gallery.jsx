@@ -33,6 +33,13 @@ export default function Gallery() {
 		activateBtn();
 		fetchFlickr({ type: 'user', id: e.target.innerText });
 	};
+	const handleSearch = (e) => {
+		//기본 submit이벤트는 전송기능이기 때문에 무조건 화면이 새로고침됨
+		//전송을 할것이 아니라 리액트로 추가 로직구현을 할 것이므로 기본 전송기능 막음
+		e.preventDefault();
+		const keyword = e.target.children[0].value;
+		console.log(keyword);
+	};
 	const fetchFlickr = async (opt) => {
 		const num = 50;
 		const flickr_api = process.env.REACT_APP_FLICKR_API;
@@ -53,8 +60,7 @@ export default function Gallery() {
 	};
 
 	useEffect(() => {
-		//fetchFlickr({ type: 'user', id: myID.current });
-		fetchFlickr({ type: 'search', keyword: 'ocean' }); //landscape 키워드로 검색 타입 갤리러 호출
+		fetchFlickr({ type: 'user', id: myID.current });
 	}, []);
 
 	return (
@@ -67,9 +73,11 @@ export default function Gallery() {
 					</button>
 				</nav>
 
-				<form>
+				<form onSubmit={handleSearch}>
 					<input type='text' placeholder='Search' />
-					<LuSearch className='btnSearch' />
+					<button className='btnSearch'>
+						<LuSearch />
+					</button>
 				</form>
 			</article>
 
