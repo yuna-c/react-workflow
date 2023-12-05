@@ -34,11 +34,11 @@ export default function Gallery() {
 		fetchFlickr({ type: 'user', id: e.target.innerText });
 	};
 	const handleSearch = (e) => {
-		//기본 submit이벤트는 전송기능이기 때문에 무조건 화면이 새로고침됨
-		//전송을 할것이 아니라 리액트로 추가 로직구현을 할 것이므로 기본 전송기능 막음
 		e.preventDefault();
+		isUser.current = '';
+		activateBtn();
 		const keyword = e.target.children[0].value;
-		console.log(keyword);
+		fetchFlickr({ type: 'search', keyword: keyword });
 	};
 	const fetchFlickr = async (opt) => {
 		const num = 50;
@@ -75,6 +75,7 @@ export default function Gallery() {
 
 				<form onSubmit={handleSearch}>
 					<input type='text' placeholder='Search' />
+
 					<button className='btnSearch'>
 						<LuSearch />
 					</button>
