@@ -140,11 +140,11 @@ export default function Gallery() {
 				</section>
 			</Layout>
 
-			{Open && (
-				<Modal setOpen={setOpen}>
+			<Modal Open={Open} setOpen={setOpen}>
+				{Pics.length !== 0 && (
 					<img src={`https://live.staticflickr.com/${Pics[Index].server}/${Pics[Index].id}_${Pics[Index].secret}_b.jpg`} alt={Pics[Index].title} />
-				</Modal>
-			)}
+				)}
+			</Modal>
 		</>
 	);
 }
