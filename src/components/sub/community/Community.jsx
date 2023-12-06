@@ -15,7 +15,7 @@ export default function Community() {
 		refCon.current.value = '';
 	};
 	const createPost = () => {
-		setPost([...Post, { title: refTit.current.value, content: refCon.current.value }]);
+		setPost([{ title: refTit.current.value, content: refCon.current.value }, ...Post]);
 	};
 	return (
 		<Layout title={'Community'}>
@@ -33,7 +33,22 @@ export default function Community() {
 						</button>
 					</nav>
 				</div>
-				<div className='showBox'></div>
+				<div className='showBox'>
+					{Post.map((el, idx) => {
+						return (
+							<article key={el + idx}>
+								<div className='txt'>
+									<h2>{el.title}</h2>
+									<p>{el.content}</p>
+								</div>
+								<nav>
+									<button>Edit</button>
+									<button>Delete</button>
+								</nav>
+							</article>
+						);
+					})}
+				</div>
 			</div>
 		</Layout>
 	);
