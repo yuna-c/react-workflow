@@ -9,12 +9,13 @@ export default function Gallery() {
 	const myID = useRef('197119297@N02');
 	const isUser = useRef(myID.current);
 	const refNav = useRef(null);
-	const refMasonry = useRef(null);
-	//const [Gap, setGap] = useState(0);
+	const refFrameWrap = useRef(null);
+
+	const gap = useRef(20);
+
 	const [Pics, setPics] = useState([]);
 	const [Open, setOpen] = useState(false);
 	const [Index, setIndex] = useState(0);
-	console.log(refMasonry);
 
 	const activateBtn = (e) => {
 		const btns = refNav.current.querySelectorAll('button');
@@ -76,14 +77,7 @@ export default function Gallery() {
 
 	useEffect(() => {
 		fetchFlickr({ type: 'user', id: myID.current });
-		//setGap(refNav.current && parseInt(getComputedStyle(refNav.current.closest('.Gallery')).getPropertyValue('--gap')));
 	}, []);
-
-	// useEffect(() => {
-	// 	if (refMasonry.current) {
-	// 		refMasonry.current?.layout();
-	// 	}
-	// }, [Gap]);
 
 	return (
 		<>
@@ -105,8 +99,8 @@ export default function Gallery() {
 					</form>
 				</article>
 
-				<section>
-					<Masonry className={'frame'} options={{ transitionDuration: '0.5s', gutter: 20 }} ref={refMasonry}>
+				<section className='frameWrap' ref={refFrameWrap}>
+					<Masonry className={'frame'} options={{ transitionDuration: '0.5s', gutter: gap.current }}>
 						{Pics.length === 0 ? (
 							<h2>해당 키워드에 대한 검색 결과가 없습니다.</h2>
 						) : (
@@ -120,7 +114,10 @@ export default function Gallery() {
 												setIndex(idx);
 											}}
 										>
-											<img src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_m.jpg`} alt={pic.title} />
+											<img
+												src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_m.jpg`}
+												alt={pic.title}
+											/>
 										</div>
 										<h2>{pic.title}</h2>
 
@@ -128,7 +125,9 @@ export default function Gallery() {
 											<img
 												src={`http://farm${pic.farm}.staticflickr.com/${pic.server}/buddyicons/${pic.owner}.jpg`}
 												alt='사용자 프로필 이미지'
-												onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
+												onError={(e) =>
+													e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')
+												}
 											/>
 											<span onClick={handleUser}>{pic.owner}</span>
 										</div>
@@ -142,7 +141,10 @@ export default function Gallery() {
 
 			<Modal Open={Open} setOpen={setOpen}>
 				{Pics.length !== 0 && (
-					<img src={`https://live.staticflickr.com/${Pics[Index].server}/${Pics[Index].id}_${Pics[Index].secret}_b.jpg`} alt={Pics[Index].title} />
+					<img
+						src={`https://live.staticflickr.com/${Pics[Index].server}/${Pics[Index].id}_${Pics[Index].secret}_b.jpg`}
+						alt={Pics[Index].title}
+					/>
 				)}
 			</Modal>
 		</>
