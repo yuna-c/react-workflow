@@ -10,28 +10,28 @@ export default function Community() {
 	const refCon = useRef(null);
 	console.log(Post);
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
+	const resetPost = () => {
+		refTit.current.value = '';
+		refCon.current.value = '';
+	};
+	const createPost = () => {
 		setPost([...Post, { title: refTit.current.value, content: refCon.current.value }]);
 	};
-
 	return (
 		<Layout title={'Community'}>
 			<div className='wrap'>
 				<div className='inputBox'>
-					<form onSubmit={handleSubmit}>
-						<input type='text' placeholder='title' name='tit' ref={refTit} />
-						<textarea cols='30' rows='3' name='con' placeholder='content' ref={refCon}></textarea>
+					<input type='text' placeholder='title' ref={refTit} />
+					<textarea cols='30' rows='3' placeholder='content' ref={refCon}></textarea>
 
-						<nav>
-							<button type='reset'>
-								<ImCancelCircle />
-							</button>
-							<button type='submit'>
-								<TfiWrite />
-							</button>
-						</nav>
-					</form>
+					<nav>
+						<button onClick={resetPost}>
+							<ImCancelCircle />
+						</button>
+						<button onClick={createPost}>
+							<TfiWrite />
+						</button>
+					</nav>
 				</div>
 				<div className='showBox'></div>
 			</div>
