@@ -1,8 +1,31 @@
 import Layout from '../../common/layout/Layout';
 import './Community.scss';
+import { ImCancelCircle } from 'react-icons/im';
+import { TfiWrite } from 'react-icons/tfi';
 
 export default function Community() {
-	return <Layout title={'Community'}>Community</Layout>;
+	return (
+		<Layout title={'Community'}>
+			<div className='wrap'>
+				<div className='inputBox'>
+					<form>
+						<input type='text' placeholder='title' name='tit' />
+						<textarea cols='30' rows='3' name='con' placeholder='content'></textarea>
+
+						<nav>
+							<button>
+								<ImCancelCircle />
+							</button>
+							<button>
+								<TfiWrite />
+							</button>
+						</nav>
+					</form>
+				</div>
+				<div className='showBox'></div>
+			</div>
+		</Layout>
+	);
 }
 
 /*
