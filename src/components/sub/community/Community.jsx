@@ -47,9 +47,21 @@ export default function Community() {
 
 	//수정모드 변경함수
 	const enableUpdate = (editIndex) => {
+		//기존의 Post배열을 반복돌면서 파라미터로 전달된 editIndex순번의 포스트에만 enableUpdate=true라는 구분자를 추가해서 다시 state변경처리
+		//다음번 렌더링때 해당 구분자가 있는 포스트객체만 수정모드로 분기처리하기 위함
 		setPost(
 			Post.map((el, idx) => {
 				if (editIndex === idx) el.enableUpdate = true;
+				return el;
+			})
+		);
+	};
+
+	//출력모드 변경함수
+	const disableUpdate = (editIndex) => {
+		setPost(
+			Post.map((el, idx) => {
+				if (editIndex === idx) el.enableUpdate = false;
 				return el;
 			})
 		);
@@ -86,19 +98,38 @@ export default function Community() {
 						const date = JSON.stringify(el.date);
 						const strDate = changeText(date.split('T')[0].slice(1), '.');
 
-						return (
-							<article key={el + idx}>
-								<div className='txt'>
-									<h2>{el.title}</h2>
-									<p>{el.content}</p>
-									<span>{strDate}</span>
-								</div>
-								<nav>
-									<button onClick={() => enableUpdate(idx)}>Edit</button>
-									<button onClick={() => deletePost(idx)}>Delete</button>
-								</nav>
-							</article>
-						);
+						if (el.enableUpdate) {
+							//수정모드
+							return (
+								<article key={el + idx}>
+									<div className='txt'>
+										<input type='text' defaultValue={el.title} />
+										<textarea cols='30' rows='3' defaultValue={el.content}></textarea>
+										<span>{strDate}</span>
+									</div>
+									<nav>
+										{/* 수정모드 일때 해당 버튼 클릭시 다시 출력모드 변경 */}
+										<button onClick={() => disableUpdate(idx)}>Cancel</button>
+										<button>Update</button>
+									</nav>
+								</article>
+							);
+						} else {
+							//출력모드
+							return (
+								<article key={el + idx}>
+									<div className='txt'>
+										<h2>{el.title}</h2>
+										<p>{el.content}</p>
+										<span>{strDate}</span>
+									</div>
+									<nav>
+										<button onClick={() => enableUpdate(idx)}>Edit</button>
+										<button onClick={() => deletePost(idx)}>Delete</button>
+									</nav>
+								</article>
+							);
+						}
 					})}
 				</div>
 			</div>
