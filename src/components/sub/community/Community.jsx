@@ -104,7 +104,7 @@ export default function Community() {
 								<article key={el + idx}>
 									<div className='txt'>
 										<input type='text' defaultValue={el.title} />
-										<textarea cols='30' rows='3' defaultValue={el.content}></textarea>
+										<textarea cols='30' rows='4' defaultValue={el.content}></textarea>
 										<span>{strDate}</span>
 									</div>
 									<nav>
