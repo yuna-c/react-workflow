@@ -45,6 +45,16 @@ export default function Community() {
 		setPost(Post.filter((_, idx) => delIndex !== idx));
 	};
 
+	//수정모드 변경함수
+	const enableUpdate = (editIndex) => {
+		setPost(
+			Post.map((el, idx) => {
+				if (editIndex === idx) el.enableUpdate = true;
+				return el;
+			})
+		);
+	};
+
 	const filtering = (txt) => {
 		const abc = Post.filter((el) => el.title.indexOf(txt) >= 0 || el.content.indexOf(txt) >= 0);
 		console.log(abc);
@@ -75,7 +85,6 @@ export default function Community() {
 					{Post.map((el, idx) => {
 						const date = JSON.stringify(el.date);
 						const strDate = changeText(date.split('T')[0].slice(1), '.');
-						console.log(strDate);
 
 						return (
 							<article key={el + idx}>
@@ -85,7 +94,7 @@ export default function Community() {
 									<span>{strDate}</span>
 								</div>
 								<nav>
-									<button onClick={() => filtering('c')}>Edit</button>
+									<button onClick={() => enableUpdate(idx)}>Edit</button>
 									<button onClick={() => deletePost(idx)}>Delete</button>
 								</nav>
 							</article>
@@ -118,4 +127,11 @@ export default function Community() {
 	localStorage객체에 활용가능한 메서드
 	- setItem('키','문자화된 데이터'); 해당 키값에 데이터를 담아서 저장
 	- getItem('키') : 해당 키값에 매칭이 되는 데이터를 가져옴
+
+	글 수정 로직 단계
+	1. 각 포스트에서 수정 버튼 클릭시 해당 객체에 enableUpdat=true라는 프로퍼티를 동적으로 추가후 state저장
+	2. 다음번 렌더링 사이클에서 포스트를 반복돌며 객체에 enableUpate값이 true이면을 제목 본문을 input요소에 담아서 출력하도록 분기처리 (출력시 수정모드로 분기처리해서 출력)
+	3. 수정모드일때는 수정취소, 수정완료 버튼 생성
+	4, 수정모드에서 수정취소 버튼 클릭시 해당 포스트 객체에 enableUpdate=false로 변경해서 다시 출력모드 변경
+	5. 수정모드에서 수정완료 버튼 클릭시 해당 폼요소에 수정된 value값을 가져와서 저장한뒤 다시 출력모드 변경
 */
