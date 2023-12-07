@@ -15,6 +15,8 @@ export default function Community() {
 	const [Post, setPost] = useState(getLocalData());
 	const refTit = useRef(null);
 	const refCon = useRef(null);
+	const refEditTit = useRef(null);
+	const refEditCon = useRef(null);
 
 	//input 초기화 함수
 	const resetPost = () => {
@@ -34,6 +36,24 @@ export default function Community() {
 			...Post,
 		]);
 		resetPost();
+	};
+
+	//글 수정 함수
+	const updatePost = (updateIndex) => {
+		if (!refEditTit.current.value.trim() || !refEditCon.current.value.trim()) {
+			return alert('수정할 글의 제목과  본문을 모두 입력하세요.');
+		}
+
+		setPost(
+			Post.map((el, idx) => {
+				if (updateIndex === idx) {
+					el.title = refEditTit.current.value;
+					el.content = refEditCon.current.value;
+					el.enableUpdate = false;
+				}
+				return el;
+			})
+		);
 	};
 
 	//글 삭제 함수
@@ -103,14 +123,14 @@ export default function Community() {
 							return (
 								<article key={el + idx}>
 									<div className='txt'>
-										<input type='text' defaultValue={el.title} />
-										<textarea cols='30' rows='4' defaultValue={el.content}></textarea>
+										<input type='text' defaultValue={el.title} ref={refEditTit} />
+										<textarea cols='30' rows='4' defaultValue={el.content} ref={refEditCon}></textarea>
 										<span>{strDate}</span>
 									</div>
 									<nav>
 										{/* 수정모드 일때 해당 버튼 클릭시 다시 출력모드 변경 */}
 										<button onClick={() => disableUpdate(idx)}>Cancel</button>
-										<button>Update</button>
+										<button onClick={() => updatePost(idx)}>Update</button>
 									</nav>
 								</article>
 							);
