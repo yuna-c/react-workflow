@@ -7,20 +7,20 @@ import { TfiWrite } from 'react-icons/tfi';
 export default function Community() {
 	const getLocalData = () => {
 		const data = localStorage.getItem('post');
-		//로컬저장소에 post키값에 값이 있으면 parsing 해서 리턴
 		if (data) return JSON.parse(data);
-		//없으면 그냥 빈 배열을 리턴 (해당 컴포넌트가 젤 처음 호출될때 한번)
 		else return [];
 	};
 	const [Post, setPost] = useState(getLocalData());
 	const refTit = useRef(null);
 	const refCon = useRef(null);
 
+	//input 초기화 함수
 	const resetPost = () => {
 		refTit.current.value = '';
 		refCon.current.value = '';
 	};
 
+	//글 저장 함수
 	const createPost = () => {
 		if (!refTit.current.value.trim() || !refCon.current.value.trim()) {
 			resetPost();
@@ -28,6 +28,14 @@ export default function Community() {
 		}
 		setPost([{ title: refTit.current.value, content: refCon.current.value }, ...Post]);
 		resetPost();
+	};
+
+	//글 삭제 함수
+	const deletePost = (delIndex) => {
+		//console.log(delIndex);
+		//기존 map과 마찬가지로 기존 배열값을 deep copy해서 새로운배열 반환
+		//이때 안쪽에 조건문을 처리해서 특정 조건에 부합되는 값만 filtering해서 리턴
+		setPost(Post.filter((_, idx) => delIndex !== idx));
 	};
 
 	useEffect(() => {
@@ -60,7 +68,7 @@ export default function Community() {
 								</div>
 								<nav>
 									<button>Edit</button>
-									<button>Delete</button>
+									<button onClick={() => deletePost(idx)}>Delete</button>
 								</nav>
 							</article>
 						);
