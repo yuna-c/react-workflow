@@ -13,8 +13,8 @@ export default function Contact() {
 	});
 
 	useEffect(() => {
-		const map = new kakao.maps.Map(mapFrame.current, mapOption.current);
-	}, [kakao]);
+		new kakao.maps.Map(mapFrame.current, mapOption.current);
+	}, []);
 
 	return (
 		<Layout title={'Contact'}>
