@@ -103,7 +103,7 @@ export default function Community() {
 
 	return (
 		<Layout title={'Community'}>
-			<div className='wrap'>
+			<div className='communityWrap'>
 				<div className='inputBox'>
 					<input type='text' placeholder='title' ref={refTit} />
 					<textarea cols='30' rows='3' placeholder='content' ref={refCon}></textarea>
