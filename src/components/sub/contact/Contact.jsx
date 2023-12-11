@@ -72,6 +72,9 @@ export default function Contact() {
 			kakao.current.maps.ControlPosition.RIGHT
 		);
 
+		//휠에 맵 줌 기능 비활성화
+		mapInstance.current.setZoomable(false);
+
 		window.addEventListener('resize', setCenter);
 		return () => window.removeEventListener('resize', setCenter);
 	}, [Index]);
