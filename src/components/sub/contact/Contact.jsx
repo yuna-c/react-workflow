@@ -10,6 +10,8 @@ export default function Contact() {
 	const [Traffic, setTraffic] = useState(false);
 
 	const mapFrame = useRef(null);
+	const viewFrame = useRef(null);
+
 	const marker = useRef(null);
 	const mapInstance = useRef(null);
 
@@ -60,6 +62,10 @@ export default function Contact() {
 		marker.current.setMap(mapInstance.current);
 		setTraffic(false);
 
+		new kakao.current.maps.RoadviewClient().getNearestPanoId(mapInfo.current[Index].latlng, 50, (panoId) => {
+			new kakao.current.maps.Roadview(viewFrame.current).setPanoId(panoId, mapInfo.current[Index].latlng);
+		});
+
 		//지도 타입 컨트롤러 추가
 		mapInstance.current.addControl(
 			new kakao.current.maps.MapTypeControl(),
@@ -101,6 +107,7 @@ export default function Contact() {
 				</nav>
 			</div>
 			<article className='mapBox' ref={mapFrame}></article>
+			<article className='viewBox' ref={viewFrame}></article>
 		</Layout>
 	);
 }
