@@ -23,36 +23,32 @@ export default function Contact() {
 			latlng: new kakao.current.maps.LatLng(37.51100661425726, 127.06162026853143),
 			imgSrc: `${process.env.PUBLIC_URL}/img/marker1.png`,
 			imgSize: new kakao.current.maps.Size(232, 99),
-			imgPos: { offset: new kakao.current.maps.Point(116, 99) },
+			imgPos: { offset: new kakao.current.maps.Point(116, 99) }
 		},
 		{
 			title: '넥슨 본사',
 			latlng: new kakao.current.maps.LatLng(37.40211707077346, 127.10344953763003),
 			imgSrc: `${process.env.PUBLIC_URL}/img/marker2.png`,
 			imgSize: new kakao.current.maps.Size(232, 99),
-			imgPos: { offset: new kakao.current.maps.Point(116, 99) },
+			imgPos: { offset: new kakao.current.maps.Point(116, 99) }
 		},
 		{
 			title: '서울 시청',
 			latlng: new kakao.current.maps.LatLng(37.5662952, 126.9779451),
 			imgSrc: `${process.env.PUBLIC_URL}/img/marker3.png`,
 			imgSize: new kakao.current.maps.Size(232, 99),
-			imgPos: { offset: new kakao.current.maps.Point(116, 99) },
-		},
+			imgPos: { offset: new kakao.current.maps.Point(116, 99) }
+		}
 	]);
 
 	//마커 인스턴스 생성
 	marker.current = new kakao.current.maps.Marker({
 		position: mapInfo.current[Index].latlng,
-		image: new kakao.current.maps.MarkerImage(
-			mapInfo.current[Index].imgSrc,
-			mapInfo.current[Index].imgSize,
-			mapInfo.current[Index].imgOpt
-		),
+		image: new kakao.current.maps.MarkerImage(mapInfo.current[Index].imgSrc, mapInfo.current[Index].imgSize, mapInfo.current[Index].imgOpt)
 	});
 
 	const roadview = () => {
-		new kakao.current.maps.RoadviewClient().getNearestPanoId(mapInfo.current[Index].latlng, 50, (panoId) => {
+		new kakao.current.maps.RoadviewClient().getNearestPanoId(mapInfo.current[Index].latlng, 50, panoId => {
 			new kakao.current.maps.Roadview(viewFrame.current).setPanoId(panoId, mapInfo.current[Index].latlng);
 		});
 	};
@@ -67,7 +63,7 @@ export default function Contact() {
 		mapFrame.current.innerHTML = '';
 		mapInstance.current = new kakao.current.maps.Map(mapFrame.current, {
 			center: mapInfo.current[Index].latlng,
-			level: 3,
+			level: 3
 		});
 		marker.current.setMap(mapInstance.current);
 		setTraffic(false);
@@ -75,16 +71,10 @@ export default function Contact() {
 
 		roadview();
 		//지도 타입 컨트롤러 추가
-		mapInstance.current.addControl(
-			new kakao.current.maps.MapTypeControl(),
-			kakao.current.maps.ControlPosition.TOPRIGHT
-		);
+		mapInstance.current.addControl(new kakao.current.maps.MapTypeControl(), kakao.current.maps.ControlPosition.TOPRIGHT);
 
 		//지도 줌 컨트롤러 추가
-		mapInstance.current.addControl(
-			new kakao.current.maps.ZoomControl(),
-			kakao.current.maps.ControlPosition.RIGHT
-		);
+		mapInstance.current.addControl(new kakao.current.maps.ZoomControl(), kakao.current.maps.ControlPosition.RIGHT);
 
 		//휠에 맵 줌 기능 비활성화
 		mapInstance.current.setZoomable(false);
