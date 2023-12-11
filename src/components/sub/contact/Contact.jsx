@@ -8,6 +8,7 @@ export default function Contact() {
 	//화면에 출력될 지도정보 배열의 순번이 담길 state
 	const [Index, setIndex] = useState(0);
 	const [Traffic, setTraffic] = useState(false);
+	const [View, setView] = useState(false);
 
 	const mapFrame = useRef(null);
 	const viewFrame = useRef(null);
@@ -104,10 +105,13 @@ export default function Contact() {
 
 				<nav className='info'>
 					<button onClick={() => setTraffic(!Traffic)}>{Traffic ? 'Traffic OFF' : 'Traffic ON'}</button>
+					<button onClick={() => setView(!View)}>{View ? 'map' : 'road view'}</button>
 				</nav>
 			</div>
-			<article className='mapBox' ref={mapFrame}></article>
-			<article className='viewBox' ref={viewFrame}></article>
+			<section className='tab'>
+				<article className={`mapBox ${View ? '' : 'on'}`} ref={mapFrame}></article>
+				<article className={`viewBox ${View ? 'on' : ''}`} ref={viewFrame}></article>
+			</section>
 		</Layout>
 	);
 }
