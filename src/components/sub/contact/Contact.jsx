@@ -71,6 +71,7 @@ export default function Contact() {
 		});
 		marker.current.setMap(mapInstance.current);
 		setTraffic(false);
+		setView(false);
 
 		roadview();
 		//지도 타입 컨트롤러 추가
