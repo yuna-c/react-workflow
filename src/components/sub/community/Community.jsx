@@ -4,13 +4,14 @@ import './Community.scss';
 import { ImCancelCircle } from 'react-icons/im';
 import { TfiWrite } from 'react-icons/tfi';
 import { useCustomText } from '../../../hooks/useText';
+import postData from './dummyPosts.json';
 
 export default function Community() {
 	const changeText = useCustomText('combined');
 	const getLocalData = () => {
 		const data = localStorage.getItem('post');
 		if (data) return JSON.parse(data);
-		else return [];
+		else return postData.dummyPosts;
 	};
 	const [Post, setPost] = useState(getLocalData());
 	const refTit = useRef(null);
@@ -32,15 +33,12 @@ export default function Community() {
 			return alert('제목과 본문을 모두 입력하세요.');
 		}
 		const korTime = new Date().getTime() + 1000 * 60 * 60 * 9;
-		setPost([
-			{ title: refTit.current.value, content: refCon.current.value, date: new Date(korTime) },
-			...Post,
-		]);
+		setPost([{ title: refTit.current.value, content: refCon.current.value, date: new Date(korTime) }, ...Post]);
 		resetPost();
 	};
 
 	//글 수정 함수
-	const updatePost = (updateIndex) => {
+	const updatePost = updateIndex => {
 		if (!refEditTit.current.value.trim() || !refEditCon.current.value.trim()) {
 			return alert('수정할 글의 제목과  본문을 모두 입력하세요.');
 		}
@@ -59,7 +57,7 @@ export default function Community() {
 	};
 
 	//글 삭제 함수
-	const deletePost = (delIndex) => {
+	const deletePost = delIndex => {
 		//console.log(delIndex);
 		//기존 map과 마찬가지로 기존 배열값을 deep copy해서 새로운배열 반환
 		//이때 안쪽에 조건문을 처리해서 특정 조건에 부합되는 값만 filtering해서 리턴
@@ -68,7 +66,7 @@ export default function Community() {
 	};
 
 	//수정모드 변경함수
-	const enableUpdate = (editIndex) => {
+	const enableUpdate = editIndex => {
 		if (editMode.current) return;
 		editMode.current = true;
 		setPost(
@@ -80,7 +78,7 @@ export default function Community() {
 	};
 
 	//출력모드 변경함수
-	const disableUpdate = (editIndex) => {
+	const disableUpdate = editIndex => {
 		editMode.current = false;
 		setPost(
 			Post.map((el, idx) => {
@@ -90,14 +88,14 @@ export default function Community() {
 		);
 	};
 
-	const filtering = (txt) => {
-		const abc = Post.filter((el) => el.title.indexOf(txt) >= 0 || el.content.indexOf(txt) >= 0);
+	const filtering = txt => {
+		const abc = Post.filter(el => el.title.indexOf(txt) >= 0 || el.content.indexOf(txt) >= 0);
 		console.log(abc);
 	};
 
 	useEffect(() => {
 		//Post데이터가 변경되면 수정모드를 강제로 false처리하면서 로컬저장소에 저장하고 컴포넌트 재실행
-		Post.map((el) => (el.enableUpdate = false));
+		Post.map(el => (el.enableUpdate = false));
 		localStorage.setItem('post', JSON.stringify(Post));
 	}, [Post]);
 
