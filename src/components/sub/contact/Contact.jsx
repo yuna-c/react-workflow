@@ -4,11 +4,13 @@ import './Contact.scss';
 
 export default function Contact() {
 	const kakao = useRef(window.kakao);
+	const abc = txt => console.log(txt);
 
 	//화면에 출력될 지도정보 배열의 순번이 담길 state
 	const [Index, setIndex] = useState(0);
 	const [Traffic, setTraffic] = useState(false);
 	const [View, setView] = useState(false);
+	console.log('test');
 
 	const mapFrame = useRef(null);
 	const viewFrame = useRef(null);
@@ -93,11 +95,10 @@ export default function Contact() {
 		<Layout title={'Contact'}>
 			<div className='controlBox'>
 				<nav className='branch'>
-					{mapInfo.current.map((el, idx) => (
-						<button key={idx} onClick={() => setIndex(idx)} className={idx === Index ? 'on' : ''}>
-							{el.title}
-						</button>
-					))}
+					{mapInfo.current.map((el, idx) =>
+						//prettier-ignore
+						<button key={idx} onClick={() => setIndex(idx)} className={idx === Index ? 'on' : ''}>{el.title}</button>
+					)}
 				</nav>
 
 				<nav className='info'>
