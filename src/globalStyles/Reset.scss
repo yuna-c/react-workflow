@@ -48,17 +48,19 @@ a {
 		border: none;
 	}
 	input,
-	textarea {
+	textarea,
+	select,
+	option {
+		background-color: transparent;
+		font-size: 1rem;
+		color: rgba(var(--baseColor-code), 0.5);
+		font-family: var(--baseFont);
 		&::placeholder {
 			background-color: transparent;
 			font-size: 1rem;
 			color: rgba(var(--baseColor-code), 0.5);
 			font-family: var(--baseFont);
 		}
-	}
-	select {
-		font-size: 1rem;
-		color: rgba(var(--baseColor-code), 0.5);
 	}
 
 	&::-webkit-scrollbar {
