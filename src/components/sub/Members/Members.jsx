@@ -35,11 +35,28 @@ export default function Members() {
 			errs.pwd1 = '비밀번호는 특수문자, 문자, 숫자를 모두포함해서 5글자 이상 입력하세요.';
 		if (value.pwd1 !== value.pwd2 || !value.pwd2) errs.pwd2 = '두개의 비밀번호를 같게 입력하세요.';
 
+		//이메일 인증에러 조건
+		//문자열에 @포함, @앞뒤로 모두 문자 존재, @뒤쪽으로 .있어야됨, .앞뒤로 문자 포함
+		if (!/@/.test(value.email)) {
+			errs.email = '이메일주소에는 @를 포함해야 합니다.';
+		} else {
+			const [forward, backward] = value.email.split('@');
+			if (!forward || !backward) {
+				errs.email = '@앞뒤로 문자가 모두 포함되야 합니다.';
+			} else {
+				const [forward, backward] = value.email.split('.');
+				if (!forward || !backward) {
+					errs.email = '.앞뒤로 문자가 모두 포함되야 합니다.';
+				}
+			}
+		}
+
 		return errs;
 	};
 
 	useEffect(() => {
 		setErrs(check(Val));
+		console.log(Errs);
 	}, [Val]);
 
 	return (
@@ -63,6 +80,7 @@ export default function Members() {
 										</td>
 										<td>
 											<input type='text' name='email' placeholder='Email' value={Val.email} onChange={handleChange} />
+											{Errs.email && <p>{Errs.email}</p>}
 										</td>
 									</tr>
 
