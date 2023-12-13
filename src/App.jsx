@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { useMedia } from './hooks/useMedia';
 import Menu from './components/common/memu/Menu';
 import Detail from './components/sub/youtube/Detail';
+import Welcome from './components/sub/members/Welcome';
 
 //git confige option 수정
 export default function App() {
@@ -31,6 +32,7 @@ export default function App() {
 			<Route path='/contact' component={Contact} />
 			<Route path='/youtube' component={Youtube} />
 			<Route path='/detail/:id' component={Detail} />
+			<Route path='/welcome/:id' component={Welcome} />
 			<Footer />
 			{Toggle && <Menu setToggle={setToggle} />}
 		</div>

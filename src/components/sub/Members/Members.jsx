@@ -1,3 +1,4 @@
+import { useDebounce } from '../../../hooks/useDebounce';
 import Layout from '../../common/layout/Layout';
 import './Members.scss';
 import { useRef, useState, useEffect } from 'react';
@@ -5,8 +6,10 @@ import { useHistory } from 'react-router-dom';
 
 export default function Members() {
 	const history = useHistory();
-	const initVal = useRef({ userid: '', pwd1: '', pwd2: '', email: '', comments: '', pwd1: '', pwd2: '', edu: '', gender: '', interest: [] });
+	const initVal = useRef({ userid: '', pwd1: '', pwd2: '', email: '', comments: '', edu: '', gender: '', interest: [] });
 	const [Val, setVal] = useState(initVal.current);
+	//useDebouce 훅의 인수로 특정 state를 전달해서 debouncing이 적용된 새로운 state값 반환받음
+	const DebouncedVal = useDebounce(Val);
 	const [Errs, setErrs] = useState({});
 
 	const handleReset = () => {
@@ -27,6 +30,7 @@ export default function Members() {
 	};
 
 	const check = value => {
+		console.log('check');
 		const errs = {};
 		const num = /[0-9]/;
 		const txt = /[a-zA-Z]/;
@@ -52,13 +56,15 @@ export default function Members() {
 
 		if (Object.keys(check(Val)).length === 0) {
 			alert('회원가입을 축하합니다.');
-			history.push('/');
+			history.push('/welcome/3');
 		}
 	};
 
+	//debounding이 적용된 state를 의존성배열에 등록해서
+	//해당 값으로 check함수 호출
 	useEffect(() => {
-		setErrs(check(Val));
-	}, [Val]);
+		setErrs(check(DebouncedVal));
+	}, [DebouncedVal]);
 
 	return (
 		<Layout title={'Members'}>
