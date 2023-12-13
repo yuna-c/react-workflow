@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 export default function Members() {
+	const history = useHistory();
 	const initVal = useRef({ userid: '', pwd1: '', pwd2: '', email: '', comments: '', pwd1: '', pwd2: '', edu: '', gender: '', interest: [] });
 	const [Val, setVal] = useState(initVal.current);
 	const [Errs, setErrs] = useState({});
@@ -51,6 +52,7 @@ export default function Members() {
 
 		if (Object.keys(check(Val)).length === 0) {
 			alert('회원가입을 축하합니다.');
+			history.push('/');
 		}
 	};
 
