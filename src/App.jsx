@@ -17,7 +17,6 @@ import Menu from './components/common/memu/Menu';
 import Detail from './components/sub/youtube/Detail';
 import Welcome from './components/sub/members/Welcome';
 
-//git confige option 수정
 export default function App() {
 	const dispatch = useDispatch();
 	const path = useRef(process.env.PUBLIC_URL);
