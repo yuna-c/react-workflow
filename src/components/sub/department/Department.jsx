@@ -8,19 +8,9 @@ export default function Department() {
 	const MemberData = useSelector(store => store.memberReducer.members);
 	const combinedTitle = useCustomText('combined');
 	const path = useRef(process.env.PUBLIC_URL);
-	//const [MemberTit, setMemberTit] = useState('');
-	//const [MemberData, setMemberData] = useState([]);
+
 	const [HistoryTit, setHistoryTit] = useState('');
 	const [HistoryData, setHistoryData] = useState([]);
-
-	// const fetchDepartment = () => {
-	// 	fetch(`${path.current}/DB/department.json`)
-	// 		.then((data) => data.json())
-	// 		.then((json) => {
-	// 			setMemberTit(Object.keys(json)[0]);
-	// 			setMemberData(Object.values(json)[0]);
-	// 		});
-	// };
 
 	const fetchHistory = () => {
 		fetch(`${path.current}/DB/history.json`)
@@ -32,7 +22,6 @@ export default function Department() {
 	};
 
 	useEffect(() => {
-		//fetchDepartment();
 		fetchHistory();
 	}, []);
 

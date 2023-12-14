@@ -10,7 +10,8 @@ import Youtube from './components/sub/youtube/Youtube';
 import { Route } from 'react-router-dom';
 import './globalStyles/Variables.scss';
 import './globalStyles/Reset.scss';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { useMedia } from './hooks/useMedia';
 import Menu from './components/common/memu/Menu';
 import Detail from './components/sub/youtube/Detail';
@@ -18,8 +19,21 @@ import Welcome from './components/sub/members/Welcome';
 
 //git confige option 수정
 export default function App() {
+	const dispatch = useDispatch();
+	const path = useRef(process.env.PUBLIC_URL);
 	const [Dark, setDark] = useState(false);
 	const [Toggle, setToggle] = useState(false);
+
+	const fetchDepartment = () => {
+		fetch(`${path.current}/DB/department.json`)
+			.then(data => data.json())
+			.then(json => {
+				console.log(json.members);
+				dispatch({ type: 'SET_MEMBERS', payload: json.members });
+			});
+	};
+
+	useEffect(() => fetchDepartment(), []);
 
 	return (
 		<div className={`wrap ${Dark ? 'dark' : ''} ${useMedia()}`}>
