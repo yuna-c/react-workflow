@@ -2,35 +2,37 @@ import { useEffect, useRef, useState } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Department.scss';
 import { useCustomText } from '../../../hooks/useText';
+import { useSelector } from 'react-redux';
 
 export default function Department() {
+	const MemberData = useSelector(store => store.memberReducer.members);
 	const combinedTitle = useCustomText('combined');
 	const path = useRef(process.env.PUBLIC_URL);
-	const [MemberTit, setMemberTit] = useState('');
-	const [MemberData, setMemberData] = useState([]);
+	//const [MemberTit, setMemberTit] = useState('');
+	//const [MemberData, setMemberData] = useState([]);
 	const [HistoryTit, setHistoryTit] = useState('');
 	const [HistoryData, setHistoryData] = useState([]);
 
-	const fetchDepartment = () => {
-		fetch(`${path.current}/DB/department.json`)
-			.then((data) => data.json())
-			.then((json) => {
-				setMemberTit(Object.keys(json)[0]);
-				setMemberData(Object.values(json)[0]);
-			});
-	};
+	// const fetchDepartment = () => {
+	// 	fetch(`${path.current}/DB/department.json`)
+	// 		.then((data) => data.json())
+	// 		.then((json) => {
+	// 			setMemberTit(Object.keys(json)[0]);
+	// 			setMemberData(Object.values(json)[0]);
+	// 		});
+	// };
 
 	const fetchHistory = () => {
 		fetch(`${path.current}/DB/history.json`)
-			.then((data) => data.json())
-			.then((json) => {
+			.then(data => data.json())
+			.then(json => {
 				setHistoryTit(Object.keys(json)[0]);
 				setHistoryData(Object.values(json)[0]);
 			});
 	};
 
 	useEffect(() => {
-		fetchDepartment();
+		//fetchDepartment();
 		fetchHistory();
 	}, []);
 
@@ -55,7 +57,7 @@ export default function Department() {
 			</section>
 
 			<section className='memberBox'>
-				<h2>{combinedTitle(MemberTit)}</h2>
+				<h2>{combinedTitle('Members')}</h2>
 
 				<div className='con'>
 					{MemberData.map((member, idx) => {
