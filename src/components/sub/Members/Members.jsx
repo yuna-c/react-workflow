@@ -30,7 +30,6 @@ export default function Members() {
 	};
 
 	const check = value => {
-		console.log('check');
 		const errs = {};
 		const num = /[0-9]/;
 		const txt = /[a-zA-Z]/;

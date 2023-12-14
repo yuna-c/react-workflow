@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Contact.scss';
 import emailjs from '@emailjs/browser';
@@ -10,22 +10,22 @@ export default function Contact() {
 	//parentDOM.children : HTMLCollection (유사배열: forEach, map 모두 반복불가, Live DOM:상태변경이 실시간)
 	//parentDOM.querySelectorAll : NodeList (유사배열: forEach로는 반복 가능. Static DOM:탐색된 시점의 정적 DOM)
 
-	const resetForm = () =>{
+	const resetForm = () => {
 		const elArr = form.current.children;
 
-		Array.from(elArr).forEach((el)=> {
-			console.log(el)
-			if( el.name==='user_name' || el.name==='user_email'||el.name==='message' ) el.value='';
-		})
-	}
+		Array.from(elArr).forEach(el => {
+			console.log(el);
+			if (el.name === 'user_name' || el.name === 'user_email' || el.name === 'message') el.value = '';
+		});
+	};
 
 	const sendEmail = e => {
-		e.preventDefault();	
+		e.preventDefault();
 
 		const [user, email] = form.current.querySelectorAll('input');
 		const txtArea = form.current.querySelector('textarea');
 
-		if(!user.value || !email.value || !txtArea.value) return alert('이름, 답장받을 이메일주소 문의내용을 모두 입력하세요.');
+		if (!user.value || !email.value || !txtArea.value) return alert('이름, 답장받을 이메일주소 문의내용을 모두 입력하세요.');
 
 		emailjs.sendForm('service_ag7z96s', 'template_oh9ajns', form.current, '23g8RepczesqKPoIX').then(
 			result => {
@@ -33,7 +33,7 @@ export default function Contact() {
 				resetForm();
 			},
 			error => {
-				alert('일시적인 장애로 문의 전송에 실패했습니다. 다음의 메일주소로 보내주세요.')
+				alert('일시적인 장애로 문의 전송에 실패했습니다. 다음의 메일주소로 보내주세요.');
 				resetForm();
 			}
 		);
@@ -83,16 +83,16 @@ export default function Contact() {
 		image: new kakao.current.maps.MarkerImage(mapInfo.current[Index].imgSrc, mapInfo.current[Index].imgSize, mapInfo.current[Index].imgOpt)
 	});
 
-	const roadview = () => {
+	const roadview = useRef(() => {
 		new kakao.current.maps.RoadviewClient().getNearestPanoId(mapInfo.current[Index].latlng, 50, panoId => {
 			new kakao.current.maps.Roadview(viewFrame.current).setPanoId(panoId, mapInfo.current[Index].latlng);
 		});
-	};
+	});
 
-	const setCenter = () => {
+	const setCenter = useCallback(() => {
 		mapInstance.current.setCenter(mapInfo.current[Index].latlng);
-		roadview();
-	};
+		roadview.current();
+	}, [Index]);
 
 	//컴포넌트 마운트시 참조객체에 담아놓은 돔 프레임에 지도 인스턴스 출력 및 마커 세팅
 	useEffect(() => {
@@ -105,19 +105,14 @@ export default function Contact() {
 		setTraffic(false);
 		setView(false);
 
-		roadview();
-		//지도 타입 컨트롤러 추가
+		roadview.current();
 		mapInstance.current.addControl(new kakao.current.maps.MapTypeControl(), kakao.current.maps.ControlPosition.TOPRIGHT);
-
-		//지도 줌 컨트롤러 추가
 		mapInstance.current.addControl(new kakao.current.maps.ZoomControl(), kakao.current.maps.ControlPosition.RIGHT);
-
-		//휠에 맵 줌 기능 비활성화
 		mapInstance.current.setZoomable(false);
 
 		window.addEventListener('resize', setCenter);
 		return () => window.removeEventListener('resize', setCenter);
-	}, [Index]);
+	}, [Index, setCenter]);
 
 	useEffect(() => {
 		Traffic
