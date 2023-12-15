@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
+import * as types from './action';
 
 const memberReducer = (state = [], action) => {
 	switch (action.type) {
-		case 'SET_MEMBERS':
+		case types.MEMBER.success:
 			return { ...state, members: action.payload };
 		default:
 			return state;
@@ -11,7 +12,7 @@ const memberReducer = (state = [], action) => {
 
 const historyReducer = (state = [], action) => {
 	switch (action.type) {
-		case 'SET_HISTORY':
+		case types.HISTORY.success:
 			return { ...state, history: action.payload };
 		default:
 			return state;
@@ -20,9 +21,9 @@ const historyReducer = (state = [], action) => {
 
 const youtubeReducer = (state = [], action) => {
 	switch (action.type) {
-		case 'SET_YOUTUBE':
+		case types.YOUTUBE.success:
 			return { ...state, youtube: action.payload };
-		case 'SET_YOUTUBE_ERR':
+		case types.YOUTUBE.fail:
 			return { ...state, youtube: action.payload };
 		default:
 			return state;
