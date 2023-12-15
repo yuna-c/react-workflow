@@ -11,7 +11,7 @@ import { Route } from 'react-router-dom';
 import './globalStyles/Variables.scss';
 import './globalStyles/Reset.scss';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useMedia } from './hooks/useMedia';
 import Menu from './components/common/memu/Menu';
 import Detail from './components/sub/youtube/Detail';
@@ -32,7 +32,6 @@ export default function App() {
 	const fetchHistory = useCallback(async () => {
 		const data = await fetch(`${path.current}/DB/history.json`);
 		const json = await data.json();
-		console.log(json);
 		dispatch({ type: 'SET_HISTORY', payload: json.history });
 	}, [dispatch]);
 
