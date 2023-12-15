@@ -39,14 +39,14 @@ export default function App() {
 		const api_key = process.env.REACT_APP_YOUTUBE_API;
 		const pid = process.env.REACT_APP_YOUTUBE_LIST;
 		const num = 10;
-		const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&playlistId=${pid}&maxResults=${num}`;
+		const baseURL = `https://www.googleapis.coms/youtube/v3/playlistItems?key=${api_key}&part=snippet&playlistId=${pid}&maxResults=${num}`;
 
 		try {
 			const data = await fetch(baseURL);
 			const json = await data.json();
 			dispatch({ type: 'SET_YOUTUBE', payload: json.items });
 		} catch (err) {
-			dispatch({ type: 'SET_YOUTUBE', payload: err });
+			dispatch({ type: 'SET_YOUTUBE_ERR', payload: err });
 		}
 	}, [dispatch]);
 
