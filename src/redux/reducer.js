@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import * as types from './action';
 
-const memberReducer = (state = [], action) => {
+const memberReducer = (state = { members: [] }, action) => {
 	switch (action.type) {
 		case types.MEMBER.success:
 			return { ...state, members: action.payload };
@@ -10,7 +10,7 @@ const memberReducer = (state = [], action) => {
 	}
 };
 
-const historyReducer = (state = [], action) => {
+const historyReducer = (state = { history: [] }, action) => {
 	switch (action.type) {
 		case types.HISTORY.success:
 			return { ...state, history: action.payload };
@@ -19,7 +19,7 @@ const historyReducer = (state = [], action) => {
 	}
 };
 
-const youtubeReducer = (state = [], action) => {
+const youtubeReducer = (state = { youtube: [] }, action) => {
 	switch (action.type) {
 		case types.YOUTUBE.success:
 			return { ...state, youtube: action.payload };
