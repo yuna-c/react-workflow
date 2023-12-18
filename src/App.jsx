@@ -22,7 +22,6 @@ export default function App() {
 	const dispatch = useDispatch();
 	const path = useRef(process.env.PUBLIC_URL);
 	const [Dark, setDark] = useState(false);
-	const [Toggle, setToggle] = useState(false);
 
 	const fetchDepartment = useCallback(async () => {
 		const data = await fetch(`${path.current}/DB/department.json`);
@@ -59,7 +58,7 @@ export default function App() {
 
 	return (
 		<div className={`wrap ${Dark ? 'dark' : ''} ${useMedia()}`}>
-			<Header Dark={Dark} setDark={setDark} Toggle={Toggle} setToggle={setToggle} />
+			<Header Dark={Dark} setDark={setDark} />
 			<Route exact path='/' component={MainWrap} />
 			<Route path='/department' component={Department} />
 			<Route path='/gallery' component={Gallery} />
@@ -70,7 +69,7 @@ export default function App() {
 			<Route path='/detail/:id' component={Detail} />
 			<Route path='/welcome/:id' component={Welcome} />
 			<Footer />
-			{Toggle && <Menu setToggle={setToggle} />}
+			<Menu />
 		</div>
 	);
 }
