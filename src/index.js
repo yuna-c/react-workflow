@@ -33,8 +33,9 @@ ReactDOM.render(
 	-> store (전역객체 저장)
 
 	redux-saga
-	component (데이터요청 액션초기 타입만 전달) -> 
-	reducer (초기요청을 받은뒤 saga에게 작업전달) -> 
-	saga (api호출 및 비동기 데이터 반환후 새로운 액션객체 생성후 리듀서전달) -> 
-	reducer (saga로부터 받은 액션객체를 통해서 전역객체 생성) -> store (전역객체 저장)
+	component (데이터요청 액션초기 타입만 전달) 
+	-> reducer (초기요청을 받은뒤 saga에게 작업전달)
+	-> saga (api호출 및 비동기 데이터 반환후 새로운 액션객체 생성후 리듀서전달)
+	-> reducer (saga로부터 받은 액션객체를 통해서 전역객체 생성) 
+	-> store (전역객체 저장)
 */
