@@ -4,19 +4,19 @@ import Layout from '../../common/layout/Layout';
 import './Gallery.scss';
 import { LuSearch } from 'react-icons/lu';
 import Modal from '../../common/modal/Modal';
+import { useDispatch } from 'react-redux';
+import * as types from '../../../redux/action';
 
 export default function Gallery() {
+	const dispatch = useDispatch();
 	const myID = useRef('197119297@N02');
 	const isUser = useRef(myID.current);
 	const refNav = useRef(null);
 	const refFrameWrap = useRef(null);
-	//검색함수가 실행됐는지를 확인하기 위한 참조객체
 	const searched = useRef(false);
-
 	const gap = useRef(20);
 
 	const [Pics, setPics] = useState([]);
-	const [Open, setOpen] = useState(false);
 	const [Index, setIndex] = useState(0);
 
 	const activateBtn = e => {
@@ -115,7 +115,7 @@ export default function Gallery() {
 										<div
 											className='pic'
 											onClick={() => {
-												setOpen(true);
+												dispatch({ type: types.MODAL.start, payload: true });
 												setIndex(idx);
 											}}>
 											<img src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_m.jpg`} alt={pic.title} />
@@ -138,7 +138,7 @@ export default function Gallery() {
 				</section>
 			</Layout>
 
-			<Modal Open={Open} setOpen={setOpen}>
+			<Modal>
 				{Pics.length !== 0 && (
 					<img src={`https://live.staticflickr.com/${Pics[Index].server}/${Pics[Index].id}_${Pics[Index].secret}_b.jpg`} alt={Pics[Index].title} />
 				)}
