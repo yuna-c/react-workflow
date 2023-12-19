@@ -40,11 +40,10 @@ function* callYoutube() {
 }
 
 //Flickr Server Data
-function* callFlickr(action) {
-	console.log(action);
-	yield takeLatest(types.FLICKR.start, function* () {
+function* callFlickr() {
+	yield takeLatest(types.FLICKR.start, function* (action) {
 		try {
-			const response = yield call(fetchFlickr);
+			const response = yield call(fetchFlickr, action.opt);
 			yield put({ type: types.FLICKR.success, payload: response.photos.photo });
 		} catch (err) {
 			yield put({ type: types.FLICKR.fail, payload: err });
