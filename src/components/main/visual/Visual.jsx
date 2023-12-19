@@ -15,7 +15,6 @@ export default function Visual() {
 					<h1>{Vids?.message}</h1>
 				) : (
 					Vids?.map((vid, idx) => {
-						console.log(vid);
 						if (idx >= 4) return null;
 						return (
 							<article key={vid.id}>
