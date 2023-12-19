@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 export default function Department() {
 	const MemberData = useSelector(store => store.memberReducer.members);
 	const HistoryData = useSelector(store => store.historyReducer.history);
-	console.log(HistoryData);
 	const combinedTitle = useCustomText('combined');
 	const path = useRef(process.env.PUBLIC_URL);
 
