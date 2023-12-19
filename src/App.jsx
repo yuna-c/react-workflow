@@ -16,11 +16,10 @@ import Menu from './components/common/memu/Menu';
 import Detail from './components/sub/youtube/Detail';
 import Welcome from './components/sub/members/Welcome';
 import * as types from './redux/actionType';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 export default function App() {
 	const dispatch = useDispatch();
-	useSelector(store => console.log(store));
 
 	useEffect(() => {
 		dispatch({ type: types.MEMBERS.start });
