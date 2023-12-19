@@ -17,15 +17,14 @@ function* returnMembers() {
 
 //History Server Data
 function* callHistory() {
-	yield takeLatest(types.HISTORY.start, returnHistory);
-}
-function* returnHistory() {
-	try {
-		const response = yield call(fetchHistory);
-		yield put({ type: types.HISTORY.success, payload: response.history });
-	} catch (err) {
-		yield put({ type: types.HISTORY.fail, payload: err });
-	}
+	yield takeLatest(types.HISTORY.start, function* () {
+		try {
+			const response = yield call(fetchHistory);
+			yield put({ type: types.HISTORY.success, payload: response.history });
+		} catch (err) {
+			yield put({ type: types.HISTORY.fail, payload: err });
+		}
+	});
 }
 
 export default function* rootSaga() {
