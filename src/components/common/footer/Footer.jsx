@@ -12,9 +12,10 @@ export default function Footer() {
 
 			<ul>
 				<li>
-					<Link to={{ pathname: 'https://www.naver.com' }} target='_blank'>
+					{/* 외부 링크 연결시 일반 a태그 처리 rel=noopener noreferrer 속성 추가해서 window객체에 이전 리액트 컴포넌트의 정보를 참조못하게 처리 */}
+					<a href='https://www.facebook.com' target='_self' rel='noopener noreferrer'>
 						<FaFacebookF />
-					</Link>
+					</a>
 				</li>
 				<li>
 					<FaTwitter />
