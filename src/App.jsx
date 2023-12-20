@@ -10,7 +10,7 @@ import Youtube from './components/sub/youtube/Youtube';
 import { Route } from 'react-router-dom';
 import './globalStyles/Variables.scss';
 import './globalStyles/Reset.scss';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useMedia } from './hooks/useMedia';
 import Menu from './components/common/memu/Menu';
 import Detail from './components/sub/youtube/Detail';
@@ -26,11 +26,17 @@ export default function App() {
 	useSelector(store => console.log(store));
 	const [Dark, setDark] = useState(false);
 	const [Toggle, setToggle] = useState(false);
+	const promiseArr = useRef([fetchYoutube(), fetchMember(), fetchHistory()]);
 
 	useEffect(() => {
+		Promise.all(promiseArr.current).then(arr => {
+			arr.forEach(action => dispatch(action));
+		});
+		/*
 		dispatch(fetchYoutube());
 		dispatch(fetchMember());
 		dispatch(fetchHistory());
+		*/
 	}, [dispatch]);
 
 	return (
