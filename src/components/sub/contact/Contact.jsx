@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Contact.scss';
 import emailjs from '@emailjs/browser';
+import { useThrottle } from '../../../hooks/useThrottle';
 
 export default function Contact() {
 	const form = useRef();
@@ -86,9 +87,13 @@ export default function Contact() {
 
 	//지도위치 가운데 보정 함수
 	const setCenter = useCallback(() => {
+		console.log('setCenter');
 		mapInstance.current.setCenter(mapInfo.current[Index].latlng);
 		//roadview.current();
 	}, [Index]);
+
+	//useThrottle로 cetCenter함수를 인수러 넣어서 thottling적용된 새로운 함수로 반환 (hof)
+	const throttledSetCenter = useThrottle(setCenter);
 
 	//Index값 변경시마다 지도정보 갱신해서 화면 재랜더링 useEffect
 	useEffect(() => {
@@ -107,9 +112,10 @@ export default function Contact() {
 		mapInstance.current.addControl(new kakao.current.maps.ZoomControl(), kakao.current.maps.ControlPosition.RIGHT);
 		mapInstance.current.setZoomable(false);
 
-		window.addEventListener('resize', setCenter);
-		return () => window.removeEventListener('resize', setCenter);
-	}, [Index, setCenter]);
+		//resize이벤트에 throttle적용된 함수를 등록 (이벤트자체는 1초에 60번 발생하지만 핸들러함수는 1초에 2번만 실행됨)
+		window.addEventListener('resize', throttledSetCenter);
+		return () => window.removeEventListener('resize', throttledSetCenter);
+	}, [Index, throttledSetCenter]);
 
 	//Traffic 토글시마다 화면 재랜더링 useEffect
 	useEffect(() => {
