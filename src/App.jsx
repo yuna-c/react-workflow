@@ -10,15 +10,13 @@ import Youtube from './components/sub/youtube/Youtube';
 import { Route } from 'react-router-dom';
 import './globalStyles/Variables.scss';
 import './globalStyles/Reset.scss';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useMedia } from './hooks/useMedia';
 import Menu from './components/common/memu/Menu';
 import Detail from './components/sub/youtube/Detail';
 import Welcome from './components/sub/members/Welcome';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchYoutube } from './redux/youtubeSlice';
-import { fetchMember } from './redux/memberSlice';
-import { fetchHistory } from './redux/historySlice';
+import apis from './redux/apiArr';
 
 //git confige option 수정
 export default function App() {
@@ -26,18 +24,8 @@ export default function App() {
 	useSelector(store => console.log(store));
 	const [Dark, setDark] = useState(false);
 	const [Toggle, setToggle] = useState(false);
-	const promiseArr = useRef([fetchYoutube(), fetchMember(), fetchHistory()]);
 
-	useEffect(() => {
-		Promise.all(promiseArr.current).then(arr => {
-			arr.forEach(action => dispatch(action));
-		});
-		/*
-		dispatch(fetchYoutube());
-		dispatch(fetchMember());
-		dispatch(fetchHistory());
-		*/
-	}, [dispatch]);
+	useEffect(() => apis.forEach(func => dispatch(func())), [dispatch]);
 
 	return (
 		<div className={`wrap ${Dark ? 'dark' : ''} ${useMedia()}`}>
