@@ -27,4 +27,4 @@ const historySlice = createSlice({
 	}
 });
 
-export default fetchHistory.reducer;
+export default historySlice.reducer;
