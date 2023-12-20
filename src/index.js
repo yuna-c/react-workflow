@@ -10,7 +10,7 @@ ReactDOM.render(
 	document.getElementById('root')
 );
 
-//npm i @reduxjs/toolkit react-redux
+//npm i @reduxjs/toolkit@1 react-redux
 
 /*
 	리덕스 비동기데이터의 효율적 처리를 위한 대표적인 미들웨어 2가지
