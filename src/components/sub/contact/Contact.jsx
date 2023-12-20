@@ -40,6 +40,7 @@ export default function Contact() {
 	const [Traffic, setTraffic] = useState(false);
 	const [View, setView] = useState(false);
 
+	//참조객체
 	const mapFrame = useRef(null);
 	const viewFrame = useRef(null);
 	const marker = useRef(null);
@@ -76,21 +77,24 @@ export default function Contact() {
 		image: new kakao.current.maps.MarkerImage(mapInfo.current[Index].imgSrc, mapInfo.current[Index].imgSize, mapInfo.current[Index].imgOpt)
 	});
 
+	//로드뷰 출력함수
 	const roadview = useCallback(() => {
-		console.log('roadview');
 		new kakao.current.maps.RoadviewClient().getNearestPanoId(mapInfo.current[Index].latlng, 50, panoId => {
 			new kakao.current.maps.Roadview(viewFrame.current).setPanoId(panoId, mapInfo.current[Index].latlng);
 		});
 	}, [Index]);
 
+	//지도위치 가운데 보정 함수
 	const setCenter = useCallback(() => {
 		mapInstance.current.setCenter(mapInfo.current[Index].latlng);
 		//roadview.current();
 	}, [Index]);
 
-	//컴포넌트 마운트시 참조객체에 담아놓은 돔 프레임에 지도 인스턴스 출력 및 마커 세팅
+	//Index값 변경시마다 지도정보 갱신해서 화면 재랜더링 useEffect
 	useEffect(() => {
+		//Index값이 변경되는 것은 출력할 맵정보가 변경된다는 의미이므로 기존 프레임 안쪽의 정보를 지워서 초기화
 		mapFrame.current.innerHTML = '';
+		viewFrame.current.innerHTML = '';
 		mapInstance.current = new kakao.current.maps.Map(mapFrame.current, {
 			center: mapInfo.current[Index].latlng,
 			level: 3
@@ -107,15 +111,18 @@ export default function Contact() {
 		return () => window.removeEventListener('resize', setCenter);
 	}, [Index, setCenter]);
 
+	//Traffic 토글시마다 화면 재랜더링 useEffect
 	useEffect(() => {
 		Traffic
 			? mapInstance.current.addOverlayMapTypeId(kakao.current.maps.MapTypeId.TRAFFIC)
 			: mapInstance.current.removeOverlayMapTypeId(kakao.current.maps.MapTypeId.TRAFFIC);
 	}, [Traffic]);
 
+	//View토글시마다 화면 재랜더링 useEffect
 	useEffect(() => {
-		viewFrame.current.innerHTML = '';
-		View && roadview();
+		//view토글시에 무조건 로드뷰정보를 호출하는 것이 아닌 viewFrame안의 내용이 없을때만 호출하고
+		//값이 있을때에는 기존데이터를 재활용해서 불필요한 roadview중복호출을 막음으로서 고용량이 이미지 refetching을 방지
+		View && viewFrame.current.children.length === 0 && roadview();
 	}, [View, roadview]);
 
 	return (
