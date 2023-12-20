@@ -77,6 +77,7 @@ export default function Contact() {
 	});
 
 	const roadview = useCallback(() => {
+		console.log('roadview');
 		new kakao.current.maps.RoadviewClient().getNearestPanoId(mapInfo.current[Index].latlng, 50, panoId => {
 			new kakao.current.maps.Roadview(viewFrame.current).setPanoId(panoId, mapInfo.current[Index].latlng);
 		});
