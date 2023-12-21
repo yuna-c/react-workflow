@@ -5,6 +5,7 @@ import emailjs from '@emailjs/browser';
 import { useThrottle } from '../../../hooks/useThrottle';
 
 export default function Contact() {
+	console.log('contact');
 	const form = useRef();
 	const resetForm = () => {
 		const elArr = form.current.children;
@@ -104,8 +105,9 @@ export default function Contact() {
 		mapInstance.current.setZoomable(false);
 	}, [Index]);
 
+	//윈도우 객체에 등록할 핸들러함수를 따로 useEffect로 빼놓은 다음 의존성 배열을 가급적 비워두는 것이 좋음
+	//윈도우 등록되는 핸들러함수에 만약 특정 state값을 의존한다면은 연결되는 함수이름자체를 의존성배열에 등록하되 useCallback처리
 	useEffect(() => {
-		//resize이벤트에 throttle적용된 함수를 등록 (이벤트자체는 1초에 60번 발생하지만 핸들러함수는 1초에 2번만 실행됨)
 		window.addEventListener('resize', throttledSetCenter);
 		return () => window.removeEventListener('resize', throttledSetCenter);
 	}, [throttledSetCenter]);
@@ -117,8 +119,6 @@ export default function Contact() {
 	}, [Traffic]);
 
 	useEffect(() => {
-		//view토글시에 무조건 로드뷰정보를 호출하는 것이 아닌 viewFrame안의 내용이 없을때만 호출하고
-		//값이 있을때에는 기존데이터를 재활용해서 불필요한 roadview중복호출을 막음으로서 고용량이 이미지 refetching을 방지
 		View && viewFrame.current.children.length === 0 && roadview();
 	}, [View, roadview]);
 
