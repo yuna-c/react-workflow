@@ -16,7 +16,6 @@ import { useSelector } from 'react-redux';
 
 export default function Department() {
 	const [Mounted, setMounted] = useState(true);
-
 	const MemberData = useSelector(store => store.memberReducer.members);
 	const HistoryData = useSelector(store => store.historyReducer.history);
 	const combinedTitle = useCustomText('combined');
