@@ -10,7 +10,7 @@ import Youtube from './components/sub/youtube/Youtube';
 import { Route } from 'react-router-dom';
 import './globalStyles/Variables.scss';
 import './globalStyles/Reset.scss';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useMedia } from './hooks/useMedia';
 import Menu from './components/common/memu/Menu';
 import Detail from './components/sub/youtube/Detail';
@@ -19,9 +19,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchMember } from './redux/memberSlice';
 import { fetchHistory } from './redux/historySlice';
 import { fetchYoutube } from './redux/youtubeSlice';
+import { fetchFlickr } from './redux/flickrSlice';
 
 //git confige option 수정
 export default function App() {
+	console.log('-----App------');
 	const dispatch = useDispatch();
 	useSelector(store => console.log(store));
 	const [Dark, setDark] = useState(false);
@@ -31,6 +33,7 @@ export default function App() {
 		dispatch(fetchMember());
 		dispatch(fetchHistory());
 		dispatch(fetchYoutube());
+		dispatch(fetchFlickr({ type: 'interest' }));
 	}, [dispatch]);
 
 	return (
