@@ -16,17 +16,22 @@ import Menu from './components/common/memu/Menu';
 import Detail from './components/sub/youtube/Detail';
 import Welcome from './components/sub/members/Welcome';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchMember } from './redux/memberSlice';
+import { fetchHistory } from './redux/historySlice';
+import { fetchYoutube } from './redux/youtubeSlice';
 
 //git confige option 수정
-export default function App({ api }) {
-	console.log('app');
-	const apis = useRef(api);
+export default function App() {
 	const dispatch = useDispatch();
 	useSelector(store => console.log(store));
 	const [Dark, setDark] = useState(false);
 	const [Toggle, setToggle] = useState(false);
 
-	useEffect(() => apis.current.forEach(func => dispatch(func())), [dispatch]);
+	useEffect(() => {
+		dispatch(fetchMember());
+		dispatch(fetchHistory());
+		dispatch(fetchYoutube());
+	}, [dispatch]);
 
 	return (
 		<div className={`wrap ${Dark ? 'dark' : ''} ${useMedia()}`}>
