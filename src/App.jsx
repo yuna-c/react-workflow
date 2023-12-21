@@ -31,7 +31,7 @@ export default function App() {
 		dispatch(fetchMember());
 		dispatch(fetchHistory());
 		dispatch(fetchYoutube());
-		dispatch(fetchFlickr({ type: 'interest' }));
+		dispatch(fetchFlickr({ type: 'user', id: '197119297@N02' }));
 	}, [dispatch]);
 
 	return (
