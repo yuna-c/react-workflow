@@ -7,13 +7,17 @@ import { configureStore } from '@reduxjs/toolkit';
 import youtubeReducer from './redux/youtubeSlice';
 import memberReducer from './redux/memberSlice';
 import historyReducer from './redux/historySlice';
+import flickrReducer from './redux/flickrSlice';
+import modalReducer from './redux/modalSlice';
 
 //리듀서 객체값 하나로 묶어서 store생성
 const store = configureStore({
 	reducer: {
 		youtubue: youtubeReducer,
 		member: memberReducer,
-		history: historyReducer
+		history: historyReducer,
+		flickr: flickrReducer,
+		modal: modalReducer
 	}
 });
 
