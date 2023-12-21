@@ -29,6 +29,7 @@ export default function App() {
 	const [Dark, setDark] = useState(false);
 	const [Toggle, setToggle] = useState(false);
 
+	//slice로 부터 fetching함수 가져와서 dispatch로 자동생성된 액션객체 전달
 	useEffect(() => {
 		dispatch(fetchMember());
 		dispatch(fetchHistory());
