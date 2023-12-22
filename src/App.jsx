@@ -10,29 +10,26 @@ import Youtube from './components/sub/youtube/Youtube';
 import { Route } from 'react-router-dom';
 import './globalStyles/Variables.scss';
 import './globalStyles/Reset.scss';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useMedia } from './hooks/useMedia';
 import Menu from './components/common/memu/Menu';
 import Detail from './components/sub/youtube/Detail';
 import Welcome from './components/sub/members/Welcome';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMember } from './redux/memberSlice';
-import { fetchHistory } from './redux/historySlice';
-import { fetchYoutube } from './redux/youtubeSlice';
-import { fetchFlickr } from './redux/flickrSlice';
 
 //git confige option 수정
-export default function App() {
+export default function App({ api }) {
 	const dispatch = useDispatch();
 	const Dark = useSelector(store => store.dark.isDark);
 
 	//slice로 부터 fetching함수 가져와서 dispatch로 자동생성된 액션객체 전달
 	useEffect(() => {
-		dispatch(fetchMember());
-		dispatch(fetchHistory());
-		dispatch(fetchYoutube());
-		dispatch(fetchFlickr({ type: 'user', id: '197119297@N02' }));
-	}, [dispatch]);
+		// dispatch(fetchMember());
+		// dispatch(fetchHistory());
+		// dispatch(fetchYoutube());
+		// dispatch(fetchFlickr());
+		api.forEach(func => dispatch(func()));
+	}, [dispatch, api]);
 
 	return (
 		<div className={`wrap ${Dark ? 'dark' : ''} ${useMedia()}`}>
