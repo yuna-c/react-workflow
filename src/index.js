@@ -20,4 +20,5 @@ ReactDOM.render(
 	2.client side data가 store로 공유 (Modal, Memu, Dark)
 	3.Layout에서 0.3초있다 on붙게 되는데 라우터이동이 0.3초보다 빨리 이동될때 optionial chaing으로 에러핸들링
 	4.Contact컴포넌트에서 throttle이 적용된 throttledSetCenter resize이벤트 연결문을 따로 useEffect로 분리
+	5.store에서 전역데이터로 관리하고 있지 않는 flickr컴포넌트에 메모리누수 대응책 완료
 */
