@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import Masonry from 'react-masonry-component';
 import Layout from '../../common/layout/Layout';
 import './Gallery.scss';
@@ -18,6 +18,7 @@ export default function Gallery() {
 
 	const [Pics, setPics] = useState([]);
 	const [Index, setIndex] = useState(0);
+	const [Mounted, setMounted] = useState(true);
 
 	const activateBtn = e => {
 		const btns = refNav.current.querySelectorAll('button');
@@ -53,36 +54,35 @@ export default function Gallery() {
 		//검색함수가 한번이라도 실행되면 영구적으로 초기값을 true로 변경처리
 		searched.current = true;
 	};
-	const fetchFlickr = async opt => {
-		const num = 50;
-		const flickr_api = process.env.REACT_APP_FLICKR_API;
-		const baseURL = `https://www.flickr.com/services/rest/?&api_key=${flickr_api}&per_page=${num}&format=json&nojsoncallback=1&method=`;
-		const method_interest = 'flickr.interestingness.getList';
-		const method_user = 'flickr.people.getPhotos';
-		const method_search = 'flickr.photos.search'; //search method 추가
-		const interestURL = `${baseURL}${method_interest}`;
-		const userURL = `${baseURL}${method_user}&user_id=${opt.id}`;
-		const searchURL = `${baseURL}${method_search}&tags=${opt.keyword}`; //search url 추가
-		let url = '';
-		opt.type === 'user' && (url = userURL);
-		opt.type === 'interest' && (url = interestURL);
-		opt.type === 'search' && (url = searchURL);
-		const data = await fetch(url);
-		const json = await data.json();
+	const fetchFlickr = useCallback(
+		async opt => {
+			const num = 500;
+			const flickr_api = process.env.REACT_APP_FLICKR_API;
+			const baseURL = `https://www.flickr.com/services/rest/?&api_key=${flickr_api}&per_page=${num}&format=json&nojsoncallback=1&method=`;
+			const method_interest = 'flickr.interestingness.getList';
+			const method_user = 'flickr.people.getPhotos';
+			const method_search = 'flickr.photos.search'; //search method 추가
+			const interestURL = `${baseURL}${method_interest}`;
+			const userURL = `${baseURL}${method_user}&user_id=${opt.id}`;
+			const searchURL = `${baseURL}${method_search}&tags=${opt.keyword}`; //search url 추가
+			let url = '';
+			opt.type === 'user' && (url = userURL);
+			opt.type === 'interest' && (url = interestURL);
+			opt.type === 'search' && (url = searchURL);
+			const data = await fetch(url);
+			const json = await data.json();
 
-		/*
-		if (json.photos.photo.length === 0) {
-			return alert('해당 검색어의 결과값이 없습니다.');
-		}
-		*/
-
-		setPics(json.photos.photo);
-	};
+			Mounted && setPics(json.photos.photo);
+		},
+		[Mounted]
+	);
 
 	useEffect(() => {
 		refFrameWrap.current.style.setProperty('--gap', gap.current + 'px');
-		fetchFlickr({ type: 'user', id: myID.current });
-	}, []);
+		//fetchFlickr({ type: 'user', id: myID.current });
+		fetchFlickr({ type: 'interest' });
+		return () => setMounted(false);
+	}, [fetchFlickr]);
 
 	return (
 		<>
