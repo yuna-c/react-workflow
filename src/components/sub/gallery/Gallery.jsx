@@ -57,7 +57,8 @@ export default function Gallery() {
 
 	useEffect(() => {
 		refFrameWrap.current.style.setProperty('--gap', gap.current + 'px');
-	}, []);
+		dispatch(fetchFlickr({ type: 'user', id: '197119297@N02' }));
+	}, [dispatch]);
 
 	return (
 		<>
