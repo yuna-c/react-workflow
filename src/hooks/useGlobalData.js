@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 
-//전역 데이터 객체 생성
+//빈 전역 데이터 객체 생성
 export const GlobalContext = createContext();
 
 //전역객체 생성후 특정 state값들을 내부로 전달해주는 wrapping 컴포넌트 생성
