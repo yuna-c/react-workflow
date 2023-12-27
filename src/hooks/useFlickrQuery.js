@@ -16,10 +16,12 @@ const fetchFlickr = async ({ queryKey }) => {
 	queryKey[1].type === 'search' && (url = searchURL);
 	const data = await fetch(url);
 	const json = await data.json();
+	console.log(json);
 	return json.photos.photo;
 };
 
 export const useFlickrQuery = opt => {
+	console.log(opt);
 	return useQuery(['fetchFlickr', opt], fetchFlickr, {
 		refetchOnMount: false,
 		refetchOnWindowFocus: false,
