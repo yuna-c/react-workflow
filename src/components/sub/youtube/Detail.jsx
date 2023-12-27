@@ -8,13 +8,11 @@ export default function Detail() {
 	const refTitle = useRef(null);
 	const { id } = useParams();
 
-	//const { data: YoutubeData, isSuccess, isError } = useYoutubeQueryById(id);
-	const result = useYoutubeQueryById(id);
-	console.log(result);
+	const { data: YoutubeData, isSuccess } = useYoutubeQueryById(id);
 
 	return (
 		<Layout title={'Detail'}>
-			{/* <h2 ref={refTitle}>{YoutubeData?.title}</h2>
+			<h2 ref={refTitle}>{YoutubeData?.title}</h2>
 			{isSuccess && (
 				<article>
 					<div className='videoBox'>
@@ -24,8 +22,6 @@ export default function Detail() {
 					<p>{YoutubeData.description}</p>
 				</article>
 			)}
-
-			{isError && <p>fail to fetch data</p>} */}
 		</Layout>
 	);
 }
