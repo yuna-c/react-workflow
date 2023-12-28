@@ -23,12 +23,12 @@ import CookieModal from './components/common/cookieModal/CookieModal';
 
 //git confige option 수정
 export default function App() {
-	const { Dark } = useGlobalData();
+	const { Mode } = useGlobalData();
 	const queryClient = new QueryClient();
 
 	return (
 		<QueryClientProvider client={queryClient}>
-			<div className={`wrap ${Dark ? 'dark' : ''} ${useMedia()}`}>
+			<div className={`wrap ${Mode === 'dark' ? 'dark' : 'light'} ${useMedia()}`}>
 				<Header />
 				<Route exact path='/' component={MainWrap} />
 				<Route path='/department' component={Department} />
