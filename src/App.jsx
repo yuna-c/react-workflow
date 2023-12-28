@@ -19,11 +19,13 @@ import Welcome from './components/sub/members/Welcome';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useGlobalData } from './hooks/useGlobalData';
+import { useCookie } from './hooks/useCookie';
 
 //git confige option 수정
 export default function App() {
 	const { Dark } = useGlobalData();
 	const queryClient = new QueryClient();
+	useCookie('today', 'done', 20);
 
 	return (
 		<QueryClientProvider client={queryClient}>
