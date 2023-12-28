@@ -2,12 +2,15 @@ import './ThemeControl.scss';
 import { useCookie } from '../../../hooks/useCookie';
 import { useRef } from 'react';
 
+//skku1006
+//미션1 - 테마초기화버튼 생성한뒤 해당 버튼 클릭시 css변수에 등록되어 있는 색상값으로 초기화
+//미션2 - Dark모드의 값도 쿠키에 등록을 해서 한번 설정된 값으로 유지되도록 처리
+
 export default function ThemeControl() {
 	const inputEl = useRef(null);
 
 	const { setCookie, isCookie } = useCookie();
 
-	//컴포넌트 마운트시 theme라는 이름의 쿠키값이 있으면
 	if (isCookie('theme')) {
 		//현재 쿠키값에서 'theme='다음 문자값을 가져와서 ;기준으로 배열분리한뒤 제일 첫번째값이 theme 컬러값
 		//해당 쿠키 컬러값으로 자동 세팅
