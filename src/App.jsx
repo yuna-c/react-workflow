@@ -41,7 +41,9 @@ export default function App() {
 				<Route path='/welcome/:id' component={Welcome} />
 				<Footer />
 				<Menu />
-				<CookieModal wid={300} ht={200}></CookieModal>
+				<CookieModal wid={300} ht={200}>
+					<h1>쿠키팝업</h1>
+				</CookieModal>
 			</div>
 			<ReactQueryDevtools />
 		</QueryClientProvider>
