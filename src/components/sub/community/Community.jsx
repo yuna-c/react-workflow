@@ -6,6 +6,7 @@ import { TfiWrite } from 'react-icons/tfi';
 import { useCustomText } from '../../../hooks/useText';
 
 export default function Community() {
+	console.log(document.cookie);
 	const changeText = useCustomText('combined');
 	const getLocalData = () => {
 		const data = localStorage.getItem('post');
