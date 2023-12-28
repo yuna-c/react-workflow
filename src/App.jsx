@@ -19,6 +19,7 @@ import Welcome from './components/sub/members/Welcome';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useGlobalData } from './hooks/useGlobalData';
+import CookieModal from './components/common/cookieModal/CookieModal';
 
 //git confige option 수정
 export default function App() {
@@ -40,6 +41,7 @@ export default function App() {
 				<Route path='/welcome/:id' component={Welcome} />
 				<Footer />
 				<Menu />
+				<CookieModal wid={300} ht={200}></CookieModal>
 			</div>
 			<ReactQueryDevtools />
 		</QueryClientProvider>
