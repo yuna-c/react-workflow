@@ -33,7 +33,7 @@
 		}
 		&::before {
 			transform: rotate(145deg);
-			transition-delay: 0s;
+			transition-delay: 0.8s;
 		}
 		&::after {
 			transform: rotate(-145deg);
@@ -43,10 +43,11 @@
 			width: 0px;
 			transition-property: opacity, width;
 			transition-duration: 0.5s;
-			transition-delay: 0.8s;
+			transition-delay: 0s;
 		}
 	}
 
+	//hover시 설정
 	.box1:hover {
 		&::before,
 		&::after,
@@ -55,12 +56,25 @@
 		}
 		&::before {
 			transform: rotate(45deg);
+			transition-delay: 0s;
 		}
 		&::after {
 			transform: rotate(-45deg);
+			transition-delay: 0.3s;
 		}
 		span {
 			width: 150px;
+			transition-delay: 0.8s;
 		}
 	}
 }
+
+//처음 호버시
+//before회전(delay:0) -> after회전(delay:0.3) -> span선그어지기(delay:0.8)
+
+//호버아웃시
+//span아웃 ->after회전아웃 -> before회전아웃
+
+//호버인과 - 호버아웃의 딜레이값은 생각하고 delay을 반대로 입력
+//:hover에 설정하는 delay값은 (hover-in 일때 적용됨)
+//:hover이전에 설정하는 delay값은  (hover-out 일때 적용됨)
