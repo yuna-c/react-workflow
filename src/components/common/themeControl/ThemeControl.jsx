@@ -21,6 +21,7 @@ export default function ThemeControl() {
 	//현재 input요소에 선택된 value값으로 쿠키에 저장하고 css변수값에도 재할당
 	//그리고 input요소의 초기값도 다시 변경처리
 	const changeThemeColor = () => {
+		console.log('changeColor');
 		const color = inputEl.current.value;
 		document.body.style.setProperty('--pointColor', color);
 		setCookie('theme', color, 60 * 60 * 24);
