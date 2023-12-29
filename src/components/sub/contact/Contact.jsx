@@ -1,14 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Layout from '../../common/layout/Layout';
+import { useThrottle } from '../../../hooks/useThrottle';
 import './Contact.scss';
 import emailjs from '@emailjs/browser';
 
 export default function Contact() {
 	const form = useRef();
-
-	//그룹형식의 DOM을 탐색할때 반환되는 두가지형태의 유사배열
-	//parentDOM.children : HTMLCollection (유사배열: forEach, map 모두 반복불가, Live DOM:상태변경이 실시간)
-	//parentDOM.querySelectorAll : NodeList (유사배열: forEach로는 반복 가능. Static DOM:탐색된 시점의 정적 DOM)
 
 	const resetForm = () => {
 		const elArr = form.current.children;
@@ -41,7 +38,6 @@ export default function Contact() {
 
 	const kakao = useRef(window.kakao);
 
-	//화면에 출력될 지도정보 배열의 순번이 담길 state
 	const [Index, setIndex] = useState(0);
 	const [Traffic, setTraffic] = useState(false);
 	const [View, setView] = useState(false);
@@ -83,20 +79,24 @@ export default function Contact() {
 		image: new kakao.current.maps.MarkerImage(mapInfo.current[Index].imgSrc, mapInfo.current[Index].imgSize, mapInfo.current[Index].imgOpt)
 	});
 
-	const roadview = useRef(() => {
+	const roadview = useCallback(() => {
+		console.log('roadview');
 		new kakao.current.maps.RoadviewClient().getNearestPanoId(mapInfo.current[Index].latlng, 50, panoId => {
 			new kakao.current.maps.Roadview(viewFrame.current).setPanoId(panoId, mapInfo.current[Index].latlng);
 		});
-	});
+	}, [Index]);
 
 	const setCenter = useCallback(() => {
+		console.log('setCenter');
 		mapInstance.current.setCenter(mapInfo.current[Index].latlng);
-		roadview.current();
 	}, [Index]);
+
+	const throttledSetCenter = useThrottle(setCenter);
 
 	//컴포넌트 마운트시 참조객체에 담아놓은 돔 프레임에 지도 인스턴스 출력 및 마커 세팅
 	useEffect(() => {
 		mapFrame.current.innerHTML = '';
+		viewFrame.current.innerHTML = '';
 		mapInstance.current = new kakao.current.maps.Map(mapFrame.current, {
 			center: mapInfo.current[Index].latlng,
 			level: 3
@@ -105,14 +105,19 @@ export default function Contact() {
 		setTraffic(false);
 		setView(false);
 
-		roadview.current();
 		mapInstance.current.addControl(new kakao.current.maps.MapTypeControl(), kakao.current.maps.ControlPosition.TOPRIGHT);
 		mapInstance.current.addControl(new kakao.current.maps.ZoomControl(), kakao.current.maps.ControlPosition.RIGHT);
 		mapInstance.current.setZoomable(false);
+	}, [Index]);
 
-		window.addEventListener('resize', setCenter);
-		return () => window.removeEventListener('resize', setCenter);
-	}, [Index, setCenter]);
+	useEffect(() => {
+		window.addEventListener('resize', throttledSetCenter);
+		return () => window.removeEventListener('resize', throttledSetCenter);
+	}, [throttledSetCenter]);
+
+	useEffect(() => {
+		View && viewFrame.current.children.length === 0 && roadview();
+	}, [View, roadview]);
 
 	useEffect(() => {
 		Traffic
@@ -157,9 +162,3 @@ export default function Contact() {
 		</Layout>
 	);
 }
-
-/*
-	1.cdn불러온 window에 불러온 외부 객체값을 가져와서 인스턴스 생성
-	2.인스턴스값을 참조객체 담는 이유 (의존성배열에 불필요하게 등록하지 않기 위해서)
-	3.화면변경점이 발생해야 될떄 state값에 따라서 변경되게 로직화한 다음 이벤트 발생시 state를 변경해서 화면 재랜더링 유도
-*/
