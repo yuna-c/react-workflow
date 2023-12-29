@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { useCustomText } from '../../../hooks/useText';
 
 function Btns() {
 	//Swiper컴포넌트 안쪽에 있는 또다른 자식 컴포넌트 안쪽에서만 useSwiper hook사용가능
@@ -12,6 +13,7 @@ function Btns() {
 	const swiper = useSwiper();
 
 	useEffect(() => {
+		swiper.init(0);
 		swiper.slideNext(300);
 	}, [swiper]);
 
@@ -19,8 +21,6 @@ function Btns() {
 		<nav className='swiperController'>
 			<button
 				onClick={() => {
-					//다시 롤링시작 버튼 클릭시 delay없이 바로 slide넘기기위해서
-					//일단은 다음슬라이드 넘기고 동시에 롤링 재시작
 					swiper.slideNext(300);
 					swiper.autoplay.start();
 				}}>
@@ -33,6 +33,7 @@ function Btns() {
 
 export default function Visual() {
 	const { youtube } = useSelector(store => store.youtubeReducer);
+	const shortenText = useCustomText('shorten');
 
 	return (
 		<figure className='Visual'>
@@ -54,9 +55,13 @@ export default function Visual() {
 					return (
 						<SwiperSlide key={vid.id}>
 							<div className='inner'>
-								<h3>
-									{idx + 1} {vid.snippet.title}
-								</h3>
+								<div className='picBox'>
+									<img src={vid.snippet.thumbnails.standard.url} alt={vid.snippet.title} />
+									<img src={vid.snippet.thumbnails.standard.url} alt={vid.snippet.title} />
+								</div>
+								<div className='txtBox'>
+									<h2>{shortenText(vid.snippet.title, 50)}</h2>
+								</div>
 							</div>
 						</SwiperSlide>
 					);
