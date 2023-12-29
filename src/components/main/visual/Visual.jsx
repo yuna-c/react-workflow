@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper';
 import { useSelector } from 'react-redux';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useCustomText } from '../../../hooks/useText';
 
 //Visual parent component
@@ -14,21 +14,17 @@ export default function Visual() {
 	const shortenText = useCustomText('shorten');
 	const swiperRef = useRef(null);
 
-	//swiper pagination option
-	const pagination = useRef({
-		clickable: true,
-		renderBullet: (index, className) => `<span class=${className}>${index + 1}</span>`
-	});
-
-	//swiper autoplay option
-	const autoplay = useRef({
-		delay: 2000,
-		disableOnInteraction: true
+	const swiperOption = useRef({
+		modules: [Pagination, Autoplay],
+		pagination: { clickable: true, renderBullet: (index, className) => `<span class=${className}>${index + 1}</span>` },
+		autoplay: { delay: 2000, disableOnInteraction: true },
+		loop: true
 	});
 
 	return (
 		<figure className='Visual'>
-			<Swiper modules={[Pagination, Autoplay]} pagination={pagination.current} autoplay={autoplay.current} loop={true}>
+			{/* <Swiper modules={[Pagination, Autoplay]} pagination={pagination.current} autoplay={autoplay.current} loop={true}> */}
+			<Swiper {...swiperOption.current}>
 				{youtube.map((vid, idx) => {
 					if (idx >= 5) return null;
 
@@ -46,7 +42,7 @@ export default function Visual() {
 								<div className='txtBox'>
 									<h2>{shortenText(vid.snippet.title, 50)}</h2>
 
-									<Link to={`/detail/${vid.id}`} onMouseEnter={swiperRef.current.autoplay.stop} onMouseLeave={swiperRef.current.autoplay.start}>
+									<Link to={`/detail/${vid.id}`} onMouseEnter={swiperRef.current?.autoplay?.stop} onMouseLeave={swiperRef.current?.autoplay?.start}>
 										<span></span>View Detail
 									</Link>
 								</div>
@@ -64,11 +60,6 @@ export default function Visual() {
 //Swiper control child component
 function Btns({ swiperRef }) {
 	swiperRef.current = useSwiper();
-
-	useEffect(() => {
-		swiperRef.current.init(0);
-		swiperRef.current.slideNext(300);
-	}, [swiperRef]);
 
 	return (
 		<nav className='swiperController'>
