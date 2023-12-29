@@ -1,6 +1,7 @@
 import './Visual.scss';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper';
 import { useSelector } from 'react-redux';
@@ -61,6 +62,7 @@ export default function Visual() {
 								</div>
 								<div className='txtBox'>
 									<h2>{shortenText(vid.snippet.title, 50)}</h2>
+									<Link to={`/detail/${vid.id}`}>View Detail</Link>
 								</div>
 							</div>
 						</SwiperSlide>
