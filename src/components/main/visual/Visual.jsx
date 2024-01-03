@@ -9,9 +9,13 @@ export default function Visual() {
 	console.log('render');
 	const num = useRef(5);
 	const { isSuccess, data } = useYoutubeQuery();
-	const [Index, setIndex] = useState(1);
+	const [Index, setIndex] = useState(0);
+
 	const [PrevIndex, setPrevIndex] = useState(0);
-	const [NextIndex, setNextIndex] = useState(2);
+	const [NextIndex, setNextIndex] = useState(0);
+	console.log('index', Index);
+	console.log('prev', PrevIndex);
+	console.log('next', NextIndex);
 
 	const swiperOpt = useRef({
 		modules: [Autoplay],
@@ -21,9 +25,15 @@ export default function Visual() {
 		centeredSlides: true,
 		onSwiper: swiper => {
 			//swiper.slideNext(300);
+			//setIndex(swiper.realIndex);
+			//setPrevIndex(swiper.previousIndex);
+			//setNextIndex(swiper.nextIndex);
 		},
 		onSlideChange: swiper => {
-			setIndex(swiper.realIndex);
+			//console.log('prev', swiper.previousIndex);
+			//console.log('next', swiper.nextIndex);
+			//if (swiper.swipeDirection === 'prev') setIndex(swiper.previousIndex);
+			//if (swiper.swipeDirection === 'next') setIndex(swiper.nextIndex);
 		},
 		//autoplay: { delay: 2000, disableOnInteraction: true },
 		breakpoints: {
@@ -32,10 +42,10 @@ export default function Visual() {
 		}
 	});
 
-	useEffect(() => {
-		Index === 0 ? setPrevIndex(num.current - 1) : setPrevIndex(Index - 1);
-		Index === num.current - 1 ? setNextIndex(0) : setNextIndex(Index + 1);
-	}, [Index]);
+	// useEffect(() => {
+	// 	Index === 0 ? setPrevIndex(num.current - 1) : setPrevIndex(Index - 1);
+	// 	Index === num.current - 1 ? setNextIndex(0) : setNextIndex(Index + 1);
+	// }, [Index]);
 
 	return (
 		<figure className='Visual'>
