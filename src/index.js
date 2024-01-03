@@ -15,7 +15,7 @@ import darkReducer from './redux/darkSlice';
 //리듀서 객체값 하나로 묶어서 store생성
 const store = configureStore({
 	reducer: {
-		youtubue: youtubeReducer,
+		youtube: youtubeReducer,
 		member: memberReducer,
 		history: historyReducer,
 		flickr: flickrReducer,
