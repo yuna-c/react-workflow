@@ -31,6 +31,14 @@ export default function Visual() {
 		}
 	});
 
+	const trimTitle = title => {
+		let resultTit = '';
+		if (title.includes('(')) resultTit = title.split('(')[0];
+		else if (title.includes('[')) resultTit = title.split('[')[0];
+		else resultTit = title;
+		return resultTit;
+	};
+
 	useEffect(() => {
 		Index === 0 ? setPrevIndex(num.current - 1) : setPrevIndex(Index - 1);
 		Index === num.current - 1 ? setNextIndex(0) : setNextIndex(Index + 1);
@@ -46,7 +54,7 @@ export default function Visual() {
 
 							return (
 								<li key={el.id} className={idx === Index ? 'on' : ''}>
-									<h3>{el.snippet.title}</h3>
+									<h3>{trimTitle(el.snippet.title)}</h3>
 								</li>
 							);
 						})}
