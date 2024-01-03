@@ -66,6 +66,7 @@ export default function Visual() {
 function Btns({ swiperRef }) {
 	swiperRef.current = useSwiper();
 	const [Rolling, setRolling] = useState(true);
+	console.log(Rolling);
 
 	const startRolling = () => {
 		swiperRef.current.slideNext(300);
@@ -81,7 +82,7 @@ function Btns({ swiperRef }) {
 	//Btns컴포넌트에서 인스턴스의 이벤트문을 활용해서
 	useEffect(() => {
 		//slide가 바뀔때마다 현재 롤링유무에 따라 Rolling state값 변경
-		swiperRef.current.on('slideChange', () => {
+		swiperRef.current.on('click', () => {
 			swiperRef.current.autoplay.running ? setRolling(true) : setRolling(false);
 		});
 	}, [swiperRef]);
