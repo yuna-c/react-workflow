@@ -57,7 +57,7 @@ export default function Visual() {
 			<Swiper {...swiperOpt.current}>
 				{isSuccess &&
 					data.map((el, idx) => {
-						if (idx >= num.current - 1) return null;
+						if (idx >= num.current) return null;
 						return (
 							<SwiperSlide key={el.id}>
 								<div className='pic'>
