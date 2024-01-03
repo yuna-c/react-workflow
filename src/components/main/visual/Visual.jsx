@@ -1,23 +1,31 @@
 import { useYoutubeQuery } from '../../../hooks/useYoutubeQuery';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper';
 import './Visual.scss';
 import 'swiper/css';
 import { useRef, useState, useEffect } from 'react';
 
 export default function Visual() {
+	console.log('render');
 	const num = useRef(5);
 	const { isSuccess, data } = useYoutubeQuery();
-	const [Index, setIndex] = useState(0);
-	const [PrevIndex, setPrevIndex] = useState(4);
-	const [NextIndex, setNextIndex] = useState(1);
+	const [Index, setIndex] = useState(1);
+	const [PrevIndex, setPrevIndex] = useState(0);
+	const [NextIndex, setNextIndex] = useState(2);
 
 	const swiperOpt = useRef({
+		modules: [Autoplay],
 		loop: true,
 		slidesPerView: 1,
 		spaceBetween: 50,
 		centeredSlides: true,
-		onSwiper: swiper => swiper.slideNext(300),
-		onSlideChange: swiper => setIndex(swiper.realIndex),
+		onSwiper: swiper => {
+			//swiper.slideNext(300);
+		},
+		onSlideChange: swiper => {
+			setIndex(swiper.realIndex);
+		},
+		//autoplay: { delay: 2000, disableOnInteraction: true },
 		breakpoints: {
 			1000: { slidesPerView: 2 },
 			1400: { slidesPerView: 3 }
