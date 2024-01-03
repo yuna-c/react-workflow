@@ -37,6 +37,7 @@ export default function Contact() {
 	};
 
 	const kakao = useRef(window.kakao);
+	console.log(kakao);
 
 	const [Index, setIndex] = useState(0);
 	const [Traffic, setTraffic] = useState(false);
