@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const fetchYoutube = createAsyncThunk('youtube', async () => {
 	const api_key = process.env.REACT_APP_YOUTUBE_API;
-	const pid = process.env.REACT_APP_YOUTUBE_LIST;
+	//const pid = process.env.REACT_APP_YOUTUBE_LIST;
+	const pid = 'PLYOPkdUKSFgUJeKpDIbI0H1wwgQO-hCZF';
 	const num = 10;
 	const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&playlistId=${pid}&maxResults=${num}`;
 
