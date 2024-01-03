@@ -6,16 +6,15 @@ import 'swiper/css';
 import { useRef, useState, useEffect } from 'react';
 
 export default function Visual() {
-	console.log('render');
 	const num = useRef(5);
 	const { isSuccess, data } = useYoutubeQuery();
-	const [Index, setIndex] = useState(0);
 
-	const [PrevIndex, setPrevIndex] = useState(0);
-	const [NextIndex, setNextIndex] = useState(0);
-	console.log('index', Index);
-	console.log('prev', PrevIndex);
-	console.log('next', NextIndex);
+	//loop값이 true시 초기 Index값을 0,1을 주면 안됨
+	//onSwipe 이벤트 발생시 자동적으로 realIndex값이 기존 Index값에 1을 뺀값으로 적용되므로
+	//useEffect에 의해서 prevIndex값이 0혹은 마지막 순번으로 변경되므로 기존 realIndex값과 중첩되서 버그발생
+	const [PrevIndex, setPrevIndex] = useState(1);
+	const [Index, setIndex] = useState(2);
+	const [NextIndex, setNextIndex] = useState(3);
 
 	const swiperOpt = useRef({
 		modules: [Autoplay],
@@ -23,29 +22,19 @@ export default function Visual() {
 		slidesPerView: 1,
 		spaceBetween: 50,
 		centeredSlides: true,
-		onSwiper: swiper => {
-			//swiper.slideNext(300);
-			//setIndex(swiper.realIndex);
-			//setPrevIndex(swiper.previousIndex);
-			//setNextIndex(swiper.nextIndex);
-		},
-		onSlideChange: swiper => {
-			//console.log('prev', swiper.previousIndex);
-			//console.log('next', swiper.nextIndex);
-			//if (swiper.swipeDirection === 'prev') setIndex(swiper.previousIndex);
-			//if (swiper.swipeDirection === 'next') setIndex(swiper.nextIndex);
-		},
-		//autoplay: { delay: 2000, disableOnInteraction: true },
+		onSwiper: swiper => console.log(swiper.realIndex),
+		onSlideChange: swiper => setIndex(swiper.realIndex),
+		autoplay: { delay: 2000, disableOnInteraction: true },
 		breakpoints: {
 			1000: { slidesPerView: 2 },
 			1400: { slidesPerView: 3 }
 		}
 	});
 
-	// useEffect(() => {
-	// 	Index === 0 ? setPrevIndex(num.current - 1) : setPrevIndex(Index - 1);
-	// 	Index === num.current - 1 ? setNextIndex(0) : setNextIndex(Index + 1);
-	// }, [Index]);
+	useEffect(() => {
+		Index === 0 ? setPrevIndex(num.current - 1) : setPrevIndex(Index - 1);
+		Index === num.current - 1 ? setNextIndex(0) : setNextIndex(Index + 1);
+	}, [Index]);
 
 	return (
 		<figure className='Visual'>
