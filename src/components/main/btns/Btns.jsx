@@ -1,3 +1,4 @@
+import Anime from '../../../asset/anime';
 import './Btns.scss';
 import { useRef, useState, useEffect } from 'react';
 
@@ -17,33 +18,15 @@ export default function Btns() {
 				btns.current.children[idx].classList.add('on');
 			}
 		});
-		/*
-		if (scroll >= secs.current[0].offsetTop) {
-			Array.from(btns.current.children).forEach(btn => btn.classList.remove('on'));
-			btns.current.children[0].classList.add('on');
-		}
-		if (scroll >= secs.current[1].offsetTop) {
-			Array.from(btns.current.children).forEach(btn => btn.classList.remove('on'));
-			btns.current.children[1].classList.add('on');
-		}
-		if (scroll >= secs.current[2].offsetTop) {
-			Array.from(btns.current.children).forEach(btn => btn.classList.remove('on'));
-			btns.current.children[2].classList.add('on');
-		}
-		if (scroll >= secs.current[3].offsetTop) {
-			Array.from(btns.current.children).forEach(btn => btn.classList.remove('on'));
-			btns.current.children[3].classList.add('on');
-		}
-    */
 	};
 
 	useEffect(() => {
 		wrap.current = document.querySelector('.wrap');
 		secs.current = document.querySelectorAll('.myScroll');
-
 		setNum(secs.current.length);
 
 		wrap.current.addEventListener('scroll', activation);
+		return () => wrap.current.removeEventListener('scroll', activation);
 	}, []);
 
 	return (
@@ -51,7 +34,14 @@ export default function Btns() {
 			{Array(Num)
 				.fill()
 				.map((_, idx) => {
-					return <li key={idx} className={idx === Index ? 'on' : ''} onClick={() => setIndex(idx)}></li>;
+					return (
+						<li
+							key={idx}
+							className={idx === Index ? 'on' : ''}
+							onClick={() => {
+								new Anime(wrap.current, { scroll: secs.current[idx].offsetTop }, { duration: 500 });
+							}}></li>
+					);
 				})}
 		</ul>
 	);
