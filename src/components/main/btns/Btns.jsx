@@ -10,7 +10,6 @@ export default function Btns() {
 	const secs = useRef(null);
 	const btns = useRef(null);
 	const baseLine = useRef(-window.innerHeight / 2);
-	//isMotion.current값이 true면 모션중이므로 재실행방지, false면 모션중이 아니므로 재실행가능
 	const isMotion = useRef(false);
 
 	const activation = () => {
@@ -50,21 +49,32 @@ export default function Btns() {
 		[Num]
 	);
 
+	const modifyPos = () => {
+		console.log('modify');
+		const btnsArr = Array.from(btns.current.children);
+		const activeEl = btns.current.querySelector('li.on');
+		const activeIndex = btnsArr.indexOf(activeEl);
+		wrap.current.scrollTop = secs.current[activeIndex].offsetTop;
+	};
+
 	const throttledActivation = useThrottle(activation);
+	const throttledModifyPos = useThrottle(modifyPos, 200);
 
 	useEffect(() => {
 		wrap.current = document.querySelector('.wrap');
 		secs.current = wrap.current.querySelectorAll('.myScroll');
 		setNum(secs.current.length);
 
+		window.addEventListener('resize', throttledModifyPos);
 		wrap.current.addEventListener('scroll', throttledActivation);
 		isAutoScroll.current && wrap.current.addEventListener('mousewheel', autoScroll);
 
 		return () => {
+			window.removeEventListener('resize', throttledModifyPos);
 			wrap.current.removeEventListener('scroll', throttledActivation);
 			wrap.current.removeEventListener('mousewheel', autoScroll);
 		};
-	}, [throttledActivation, autoScroll]);
+	}, [throttledActivation, autoScroll, throttledModifyPos]);
 
 	return (
 		<ul className='Btns' ref={btns}>
