@@ -23,6 +23,7 @@ export default function Visual() {
 		},
 		autoplay: { delay: 2000, disableOnInteraction: true },
 		loop: true,
+		loopedSlides: 5,
 		onSwiper: swiper => {
 			swiperRef.current = swiper;
 			swiperRef.current.pagination.el.addEventListener('click', () => {
@@ -51,10 +52,7 @@ export default function Visual() {
 								<div className='txtBox'>
 									<h2>{shortenText(vid.snippet.title, 50)}</h2>
 
-									<Link
-										to={`/detail/${vid.id}`}
-										onMouseEnter={swiperRef.current?.autoplay.stop}
-										onMouseLeave={swiperRef.current?.autoplay.start}>
+									<Link to={`/detail/${vid.id}`} onMouseEnter={swiperRef.current?.autoplay.stop} onMouseLeave={swiperRef.current?.autoplay.start}>
 										<span></span>View Detail
 									</Link>
 								</div>
@@ -83,13 +81,7 @@ function Btns({ swiperRef, Rolling, setRolling }) {
 	};
 
 	return (
-		<nav className='swiperController'>
-			{Rolling ? (
-				<button onClick={stopRolling}>stop</button>
-			) : (
-				<button onClick={startRolling}>start</button>
-			)}
-		</nav>
+		<nav className='swiperController'>{Rolling ? <button onClick={stopRolling}>stop</button> : <button onClick={startRolling}>start</button>}</nav>
 	);
 }
 
