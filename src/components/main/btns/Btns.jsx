@@ -11,7 +11,6 @@ export default function Btns() {
 	const baseLine = useRef(-window.innerHeight / 2); //현재 섹션의 컨텐츠가 절반이상 보여야지 활성화처리
 
 	const activation = () => {
-		console.log('activation');
 		const scroll = wrap.current.scrollTop;
 
 		secs.current.forEach((sec, idx) => {
@@ -22,11 +21,15 @@ export default function Btns() {
 		});
 	};
 
+	const moveScroll = idx => {
+		new Anime(wrap.current, { scroll: secs.current[idx].offsetTop }, { duration: 500 });
+	};
+
 	const throttledActivation = useThrottle(activation);
 
 	useEffect(() => {
 		wrap.current = document.querySelector('.wrap');
-		secs.current = document.querySelectorAll('.myScroll');
+		secs.current = wrap.current.querySelectorAll('.myScroll');
 		setNum(secs.current.length);
 
 		wrap.current.addEventListener('scroll', throttledActivation);
@@ -38,15 +41,7 @@ export default function Btns() {
 			{Array(Num)
 				.fill()
 				.map((_, idx) => {
-					return (
-						<li
-							key={idx}
-							className={idx === 0 ? 'on' : ''}
-							onClick={() => {
-								//new Anime(선택자, {속성명1:속성값2, 속성명2:속성값2}, {duration:속도, easeType:가속도, callback:컴플릭함수})
-								new Anime(wrap.current, { scroll: secs.current[idx].offsetTop }, { duration: 1000 });
-							}}></li>
-					);
+					return <li key={idx} className={idx === 0 ? 'on' : ''} onClick={() => moveScroll(idx)}></li>;
 				})}
 		</ul>
 	);
