@@ -16,22 +16,11 @@ export default function Btns(opt) {
 	const baseLine = useRef(resultOpt.current.base);
 	const isMotion = useRef(false);
 
-	//VirturalDOM(스크립트를 통해서 가상으로 만든돔) vs RealDOM (HTML을 통해서 생성한 돔) (리액트에서 쓰는개념)
-
-	//LiveDOM vs StaticDOM (Real DOM)
-	//LiveDOM은 계속 속성값이 갱신되는 DOM, StaticDOM은 변수에 할당된 순간의 정보값으로 고정된 DOM
-	//VirtualDOM vs RealDOM (LiveDOM, StaticDOM : RealDOM의 하위개념)
-
 	const activation = () => {
 		const scroll = wrap.current?.scrollTop;
 
 		secs.current.forEach((_, idx) => {
 			if (scroll >= secs.current[idx].offsetTop + baseLine.current) {
-				//아래 구문에서 children이 아닌 querySelectorAll을 써야 되는 이유
-				//children(HTMLCollections반환 LiveDOM) vs querySelectorAll(NodeList반환, Static DOM)
-				//버튼 li요소를 Btns컴포넌트 마운트시 동적으로 생성하기 때문에
-				//만약 컴포넌트 unmounted시 querySelector로 찾은 NodeList는 optionial chaining 처리가능하나
-				//children으로 구한 HTMLCollection은 실시간으로 DOM의 상태값을 추적하기 떄문에 optional chaining처리 불가
 				const btnsArr = btns.current?.querySelectorAll('li');
 				btnsArr?.forEach(btn => btn.classList.remove('on'));
 				btns.current?.querySelectorAll('li')[idx]?.classList.add('on');
