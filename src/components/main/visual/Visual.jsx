@@ -4,12 +4,12 @@ import { Autoplay } from 'swiper';
 import './Visual.scss';
 import 'swiper/css';
 import { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Visual() {
 	const num = useRef(8);
 	const swipeRef = useRef(null);
 	const { isSuccess, data } = useYoutubeQuery();
-
 	const [PrevIndex, setPrevIndex] = useState(0);
 	const [Index, setIndex] = useState(0);
 	const [NextIndex, setNextIndex] = useState(0);
@@ -21,18 +21,13 @@ export default function Visual() {
 		spaceBetween: 50,
 		centeredSlides: true,
 		loopedSlides: num.current,
-		onSwiper: swiper => {
-			swipeRef.current = swiper;
-		},
+		autoplay: { delay: 2000, disableOnInteraction: true },
+		breakpoints: { 1000: { slidesPerView: 2 }, 1400: { slidesPerView: 3 } },
+		onSwiper: swiper => (swipeRef.current = swiper),
 		onSlideChange: swiper => {
 			setIndex(swiper.realIndex);
 			swiper.realIndex === 0 ? setPrevIndex(num.current - 1) : setPrevIndex(swiper.realIndex - 1);
 			swiper.realIndex === num.current - 1 ? setNextIndex(0) : setNextIndex(swiper.realIndex + 1);
-		},
-		autoplay: { delay: 2000, disableOnInteraction: true },
-		breakpoints: {
-			1000: { slidesPerView: 2 },
-			1400: { slidesPerView: 3 }
 		}
 	});
 
@@ -55,6 +50,8 @@ export default function Visual() {
 							return (
 								<li key={el.id} className={idx === Index ? 'on' : ''}>
 									<h3>{trimTitle(el.snippet.title)}</h3>
+
+									<Link to={`/detail/${el.id}`}>View Detail</Link>
 								</li>
 							);
 						})}
