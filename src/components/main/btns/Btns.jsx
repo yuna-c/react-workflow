@@ -7,7 +7,7 @@ export default function Btns(opt) {
 	const defOpt = useRef({ frame: '.wrap', items: '.myScroll', base: -window.innerHeight / 2, isAuto: false });
 	const resultOpt = useRef({ ...defOpt.current, ...opt });
 	const [Num, setNum] = useState(0);
-	const [Mounted, setMounted] = useState(true);
+	//const [Mounted, setMounted] = useState(true);
 
 	const isAutoScroll = useRef(resultOpt.current.isAuto);
 	const wrap = useRef(null);
@@ -16,25 +16,21 @@ export default function Btns(opt) {
 	const baseLine = useRef(resultOpt.current.base);
 	const isMotion = useRef(false);
 
-	//activation에서 null요소의 값을 읽을수 없다는 오류 뜨는 이유 (throttle과는 무관)
-	//아래함수는 scroll이 동작될때마다 실행되는 함수
 	const activation = () => {
-		if (!Mounted) return;
 		const scroll = wrap.current?.scrollTop;
 
-		//내부적으로 scroll시 모든 section요소와, btns요소를 탐색해서 가져와야 됨
-		//스크롤하자마 바로 라우터 이동을 하면 모든 section요소를 참조객체에 담기기전에
-		//컴포넌트가 언마운트 됨
-		//컴포넌트 언마운트시 비어있는 참조객체를 호출하려고 하기 때문에 에러 발생
-		//컴포넌트가 언마운트되면 return문으로 참조객체활용 구문자체를 무시
-		if (secs.current) {
-			secs.current.forEach((_, idx) => {
-				if (scroll >= secs.current[idx].offsetTop + baseLine.current) {
-					Array.from(btns.current.children).forEach(btn => btn?.classList.remove('on'));
-					btns.current.children[idx].classList.add('on');
-				}
-			});
-		}
+		secs.current.forEach((_, idx) => {
+			if (scroll >= secs.current[idx].offsetTop + baseLine.current) {
+				//아래 구문에서 children이 아닌 querySelectorAll을 써야 되는 이유
+				//children(HTMLCollections반환 LiveDOM) vs querySelectorAll(NodeList반환, Static DOM)
+				//버튼 li요소를 Btns컴포넌트 마운트시 동적으로 생성하기 때문에
+				//만약 컴포넌트 unmounted시 querySelector로 찾은 NodeList는 optionial chaining 처리가능하나
+				//children으로 구한 HTMLCollection은 실시간으로 DOM의 상태값을 추적하기 떄문에 optional chaining처리 불가
+				const btnsArr = btns.current?.querySelectorAll('li');
+				btnsArr?.forEach(btn => btn.classList.remove('on'));
+				btns.current?.querySelectorAll('li')[idx]?.classList.add('on');
+			}
+		});
 	};
 
 	const moveScroll = idx => {
@@ -68,19 +64,13 @@ export default function Btns(opt) {
 	const throttledActivation = useThrottle(activation);
 	const throttledModifyPos = useThrottle(modifyPos, 200);
 
-	//컴포넌트가 언마운트 한번만 동작되야 되기 때문에
-	//의존성배열이 비어있는 useEffect훅안쪽의 클린업함수에서 Mounted값 변경
-	useEffect(() => {
-		return () => setMounted(false);
-	}, []);
-
 	useEffect(() => {
 		wrap.current = document.querySelector(resultOpt.current.frame);
 		secs.current = wrap.current.querySelectorAll(resultOpt.current.items);
 		setNum(secs.current.length);
 
 		window.addEventListener('resize', throttledModifyPos);
-		Mounted && wrap.current.addEventListener('scroll', throttledActivation);
+		wrap.current.addEventListener('scroll', throttledActivation);
 		isAutoScroll.current && wrap.current.addEventListener('mousewheel', autoScroll);
 
 		return () => {
@@ -88,7 +78,7 @@ export default function Btns(opt) {
 			wrap.current.removeEventListener('scroll', throttledActivation);
 			wrap.current.removeEventListener('mousewheel', autoScroll);
 		};
-	}, [autoScroll, throttledActivation, throttledModifyPos, resultOpt.current.frame, resultOpt.current.items, Mounted]);
+	}, [autoScroll, throttledActivation, throttledModifyPos, resultOpt.current.frame, resultOpt.current.items]);
 
 	return (
 		<ul className='Btns' ref={btns}>
