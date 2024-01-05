@@ -3,8 +3,8 @@
 	margin: 100px auto;
 	min-height: 60vh;
 	opacity: 0;
-	transform: translateY(200px);
-	transition: opacity 1s, transform 1s;
+	top: 200px;
+	transition: opacity 1s, top 1s;
 	position: relative;
 
 	h1 {
@@ -46,7 +46,7 @@
 
 	&.on {
 		opacity: 1;
-		transform: translateY(0px);
+		top: 0px;
 
 		h1 {
 			span {
