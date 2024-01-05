@@ -1,18 +1,22 @@
 import { useEffect, useRef } from 'react';
 import './Layout.scss';
 import { useSplitText } from '../../../hooks/useText';
+import { useScroll } from '../../../hooks/useScroll';
 
 export default function Layout({ children, title }) {
 	const refFrame = useRef(null);
 	const refTitle = useRef(null);
 	const splitText = useSplitText();
+	const { scrollTo } = useScroll('.wrap');
+	console.log(scrollTo);
 
 	useEffect(() => {
+		//scrollTo(0);
 		splitText(refTitle.current, title, 0.7, 0.1);
 		setTimeout(() => {
 			refFrame.current?.classList.add('on');
 		}, 300);
-	}, [splitText, title]);
+	}, [splitText, title, scrollTo]);
 
 	return (
 		<main ref={refFrame} className={`Layout ${title}`}>
