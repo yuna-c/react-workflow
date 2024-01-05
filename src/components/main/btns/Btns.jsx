@@ -20,7 +20,6 @@ export default function Btns(opt) {
 
 	//LiveDOM vs StaticDOM (Real DOM)
 	//LiveDOM은 계속 속성값이 갱신되는 DOM, StaticDOM은 변수에 할당된 순간의 정보값으로 고정된 DOM
-
 	//VirtualDOM vs RealDOM (LiveDOM, StaticDOM : RealDOM의 하위개념)
 
 	const activation = () => {
