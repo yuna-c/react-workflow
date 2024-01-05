@@ -26,7 +26,7 @@ export default function Layout({ children, title }) {
 	}, [splitText, title, scrollTo]);
 
 	useEffect(() => {
-		scrollFrame.current.addEventListener('scroll', () => handleScroll(300));
+		scrollFrame?.addEventListener('scroll', () => handleScroll(300));
 	}, [getCurrentScroll, handleScroll, scrollFrame]);
 
 	return (

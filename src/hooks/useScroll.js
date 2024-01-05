@@ -20,5 +20,5 @@ export function useScroll(frame = '.wrap') {
 		scrollFrame.current = document.querySelector(frame);
 	}, [frame]);
 
-	return { scrollTo, getCurrentScroll, scrollFrame };
+	return { scrollTo, getCurrentScroll, scrollFrame: scrollFrame.current };
 }
