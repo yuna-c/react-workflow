@@ -66,6 +66,12 @@ export default function Btns(opt) {
 	const throttledActivation = useThrottle(activation);
 	const throttledModifyPos = useThrottle(modifyPos, 200);
 
+	//컴포넌트가 언마운트 한번만 동작되야 되기 때문에
+	//의존성배열이 비어있는 useEffect훅안쪽의 클린업함수에서 Mounted값 변경
+	useEffect(() => {
+		return () => setMounted(false);
+	}, []);
+
 	useEffect(() => {
 		wrap.current = document.querySelector(resultOpt.current.frame);
 		secs.current = wrap.current.querySelectorAll(resultOpt.current.items);
@@ -76,7 +82,6 @@ export default function Btns(opt) {
 		isAutoScroll.current && wrap.current.addEventListener('mousewheel', autoScroll);
 
 		return () => {
-			setMounted(false);
 			window.removeEventListener('resize', throttledModifyPos);
 			wrap.current.removeEventListener('scroll', throttledActivation);
 			wrap.current.removeEventListener('mousewheel', autoScroll);
