@@ -7,6 +7,7 @@ export default function Btns(opt) {
 	const defOpt = useRef({ frame: '.wrap', items: '.myScroll', base: -window.innerHeight / 2, isAuto: false });
 	const resultOpt = useRef({ ...defOpt.current, ...opt });
 	const [Num, setNum] = useState(0);
+	const [Mounted, setMounted] = useState(true);
 
 	const isAutoScroll = useRef(resultOpt.current.isAuto);
 	const wrap = useRef(null);
@@ -16,9 +17,9 @@ export default function Btns(opt) {
 	const isMotion = useRef(false);
 
 	const activation = () => {
+		if (!Mounted) return;
 		const scroll = wrap.current.scrollTop;
 
-		if (!secs.current) return;
 		secs.current.forEach((sec, idx) => {
 			if (scroll >= secs.current[idx].offsetTop + baseLine.current) {
 				Array.from(btns.current.children).forEach(btn => btn.classList.remove('on'));
@@ -68,6 +69,7 @@ export default function Btns(opt) {
 		isAutoScroll.current && wrap.current.addEventListener('mousewheel', autoScroll);
 
 		return () => {
+			setMounted(false);
 			window.removeEventListener('resize', throttledModifyPos);
 			wrap.current.removeEventListener('scroll', throttledActivation);
 			wrap.current.removeEventListener('mousewheel', autoScroll);
