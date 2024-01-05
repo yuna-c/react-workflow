@@ -3,14 +3,13 @@ import { useScroll } from '../../../hooks/useScroll';
 import './Pics.scss';
 
 export default function Pics() {
-	console.log('Pics');
 	const [Frame, setFrame] = useState(null);
 	const thisEl = useRef(null);
 	const boxEl = useRef(null);
 	const { getCurrentScroll } = useScroll(Frame);
 
 	const handleScroll = useCallback(() => {
-		const scroll = getCurrentScroll(thisEl.current);
+		const scroll = getCurrentScroll(thisEl.current, -window.innerHeight / 2);
 
 		scroll >= 0 && (boxEl.current.style.transform = `translateX(${scroll}px)`);
 	}, [getCurrentScroll]);
