@@ -7,6 +7,7 @@ export default function Btns(opt) {
 	const defOpt = useRef({ frame: '.wrap', items: '.myScroll', base: -window.innerHeight / 2, isAuto: false });
 	const resultOpt = useRef({ ...defOpt.current, ...opt });
 	const [Num, setNum] = useState(0);
+
 	const isAutoScroll = useRef(resultOpt.current.isAuto);
 	const wrap = useRef(null);
 	const secs = useRef(null);
@@ -19,8 +20,8 @@ export default function Btns(opt) {
 
 		secs.current.forEach((sec, idx) => {
 			if (scroll >= secs.current[idx].offsetTop + baseLine.current) {
-				Array.from(btns.current?.children).forEach(btn => btn.classList.remove('on'));
-				btns.current?.children[idx].classList.add('on');
+				Array.from(btns.current.children).forEach(btn => btn.classList.remove('on'));
+				btns.current.children[idx].classList.add('on');
 			}
 		});
 	};
