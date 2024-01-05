@@ -16,11 +16,18 @@ export default function Btns(opt) {
 	const baseLine = useRef(resultOpt.current.base);
 	const isMotion = useRef(false);
 
+	//activation에서 null요소의 값을 읽을수 없다는 오류 뜨는 이유 (throttle과는 무관)
+	//아래함수는 scroll이 동작될때마다 실행되는 함수
 	const activation = () => {
 		if (!Mounted) return;
 		const scroll = wrap.current.scrollTop;
 
-		secs.current.forEach((sec, idx) => {
+		//내부적으로 scroll시 모든 section요소와, btns요소를 탐색해서 가져와야 됨
+		//스크롤하자마 바로 라우터 이동을 하면 모든 section요소를 참조객체에 담기기전에
+		//컴포넌트가 언마운트 됨
+		//컴포넌트 언마운트시 비어있는 참조객체를 호출하려고 하기 때문에 에러 발생
+		//컴포넌트가 언마운트되면 return문으로 참조객체활용 구문자체를 무시
+		secs.current.forEach((_, idx) => {
 			if (scroll >= secs.current[idx].offsetTop + baseLine.current) {
 				Array.from(btns.current.children).forEach(btn => btn.classList.remove('on'));
 				btns.current.children[idx].classList.add('on');
@@ -74,7 +81,7 @@ export default function Btns(opt) {
 			wrap.current.removeEventListener('scroll', throttledActivation);
 			wrap.current.removeEventListener('mousewheel', autoScroll);
 		};
-	}, [throttledActivation, autoScroll, throttledModifyPos, resultOpt.current.frame, resultOpt.current.items]);
+	}, [autoScroll, throttledActivation, throttledModifyPos, resultOpt.current.frame, resultOpt.current.items]);
 
 	return (
 		<ul className='Btns' ref={btns}>
