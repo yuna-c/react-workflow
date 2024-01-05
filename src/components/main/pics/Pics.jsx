@@ -1,20 +1,28 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useScroll } from '../../../hooks/useScroll';
 import './Pics.scss';
 
 export default function Pics() {
-	const { scrollFrame, getCurrentScroll } = useScroll();
-	const [Scrolled, setScrolled] = useState(0);
-
+	console.log('Pics');
+	const [Frame, setFrame] = useState(null);
 	const thisEl = useRef(null);
 	const boxEl = useRef(null);
+	const { getCurrentScroll } = useScroll(Frame);
+
+	const handleScroll = useCallback(() => {
+		const scroll = getCurrentScroll(thisEl.current);
+		scroll >= 0 && (boxEl.current.style.transform = `translateX(${scroll}px)`);
+	}, [getCurrentScroll]);
 
 	useEffect(() => {
-		scrollFrame?.addEventListener('scroll', () => {
-			setScrolled(getCurrentScroll(thisEl.current));
-			if (Scrolled >= 0) boxEl.current.style.transform = `translateX(${Scrolled}px)`;
-		});
-	}, [scrollFrame, getCurrentScroll]);
+		setFrame(thisEl.current?.closest('.wrap'));
+	}, []);
+
+	useEffect(() => {
+		Frame?.addEventListener('scroll', handleScroll);
+		return () => Frame?.removeEventListener('scroll', handleScroll);
+	}, [Frame, handleScroll]);
+
 	return (
 		<section className='Pics myScroll' ref={thisEl}>
 			<div className='box' ref={boxEl}></div>
