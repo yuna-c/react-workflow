@@ -1,7 +1,7 @@
 import Anime from '../asset/anime';
 import { useState, useEffect } from 'react';
 
-export function useScroll(scrollFrame) {
+export function useScroll() {
 	const [Frame, setFrame] = useState(null);
 	const scrollTo = targetPos => {
 		Frame && new Anime(Frame, { scroll: targetPos });
