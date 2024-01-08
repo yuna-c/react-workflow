@@ -12,12 +12,22 @@
 	.svgBox {
 		width: 60vh;
 		height: 60vh;
-		border: 1px solid #333;
 
+		//stroke-dasharay: 해당 path의 빈칸 비율, 빈칸비율과 그어진선의 크기는 동일한 비율로 설정됨
+		//stroke-dashoffset: 가시영역에서의 stroke이 보여지는 시작 기준점
 		path {
-			fill: hotpink;
-			stroke: blue;
-			stroke-width: 10;
+			fill: transparent;
+			stroke: var(--baseColor);
+			stroke-width: 2;
+			stroke-dasharray: 1510;
+			stroke-dashoffset: 1510;
+			transition: stroke-dashoffset 1s;
+		}
+
+		&:hover {
+			path {
+				stroke-dashoffset: 0;
+			}
 		}
 	}
 }
