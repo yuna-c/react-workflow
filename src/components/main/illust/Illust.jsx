@@ -9,17 +9,15 @@ export default function Illust() {
 		const pathLen = 1510;
 		pathEl.current.style.strokeDashoffset = pathLen;
 
-		//섹션기준점에 도달하기 전까지는 기존 값 고수
 		if (scroll < 0) {
 			pathEl.current.style.strokeDashoffset = pathLen;
 		}
-		//섹션에 도달하는 순간부터 스크롤값 연동
 		if (scroll >= 0) {
 			let resultScroll = 0;
 			pathLen - scroll * 4 < 0 ? (resultScroll = 0) : (resultScroll = pathLen - scroll * 4);
 			pathEl.current.style.strokeDashoffset = resultScroll;
 		}
-		//섹션을 벗어나는 순간부터는 0값을 고수
+
 		if (scroll >= scroll + refEl.current.offsetHeight) {
 			pathEl.current.style.strokeDashoffset = 0;
 		}
@@ -29,7 +27,6 @@ export default function Illust() {
 	return (
 		<div className='Illust myScroll' ref={refEl}>
 			<div className='svgBox'>
-				{/* vieBox(가로위치값, 세로위치값, 가로폭의 비율, 세로폭의 비율) 0 0 512 512*/}
 				<svg viewBox='-1 -1 514 514'>
 					<path
 						ref={pathEl}
