@@ -3,11 +3,10 @@ import { useScroll } from '../../../hooks/useScroll';
 import './Banner.scss';
 
 export default function Banner() {
-	const [Frame, setFrame] = useState(null);
 	const refBanner = useRef(null);
 	const boxEl = useRef(null);
 
-	const { getCurrentScroll } = useScroll(Frame);
+	const { getCurrentScroll, Frame } = useScroll();
 
 	const handleScroll = useCallback(() => {
 		const scroll = getCurrentScroll(refBanner.current, -window.innerHeight / 2);
@@ -16,10 +15,6 @@ export default function Banner() {
 			boxEl.current.style.opacity = 1 - scroll / 400;
 		}
 	}, [getCurrentScroll]);
-
-	useEffect(() => {
-		setFrame(refBanner.current?.closest('.wrap'));
-	}, []);
 
 	useEffect(() => {
 		Frame?.addEventListener('scroll', handleScroll);
