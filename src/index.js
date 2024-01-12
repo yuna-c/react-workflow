@@ -59,6 +59,7 @@ ReactDOM.render(
 	redux-toolkit의 단점
 	- 첨에는 자주쓰는 비동기데이터를 전역데이터에 저장해서 재활용하는 것이 불필요하게 refetching하지않아도 편하다고 생각됨
 	- 비동기데이터 (서버데이터) 클라이언트에 제어권이 수시로 변경되는 데이터를 fetching한 그 순간의 정적인 상태로 store에 저장하는 것이 적절치 않다고 판단됨 (store에 저장되어 있는 비동기데이터는 fetching된 시점의 outdated data를 모든 컴포넌트에서 공유하는것이 데이터의 신뢰성 문제가 있을것으로 판단됨)
+	= 최신 비동기 상태의 데이터를 정적인 state에 저장하는 것이 잘못 되었다
 	- 비동기데이터를 컴포넌트에서 활용하기 위해서는 state생성 fetching함수 정의, useCallback으로 fetching함수 메모이제이션, useEffect에서 해당함수 호출이라는 일련의 작업이 번거로움
 	- react-query새로운 개념의 비동기데이터 방법을 알게됨
 	(react-query가이드문서 p.100)
